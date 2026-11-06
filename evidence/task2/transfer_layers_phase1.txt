@@ -1,0 +1,7 @@
+input_tensor (InputLayer)
+mobilenet_v2_preprocess (Lambda)
+head_gap (GlobalAveragePooling2D)
+head_bn1 (BatchNormalization)
+head_dense128 (Dense)
+head_dropout (Dropout)
+head_output (Dense)
