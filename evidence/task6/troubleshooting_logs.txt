@@ -1,0 +1,264 @@
+================================================================================
+TASK 6.5: DOCKER COMPOSE OPERATIONS & TROUBLESHOOTING DRILL
+Student Roll Number: 23L0710
+Execution Timestamp: 2026-11-06 23:25:04 UTC
+================================================================================
+Backed up /Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/.env to /Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/.env.troubleshoot_bak
+
+============================================================
+PART 1: OPERATIONAL LIFECYCLE COMMANDS
+============================================================
+
+--- 1.1 Checking Service Status (docker compose ps) ---
+
+$ docker compose ps
+NAME              IMAGE                    COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+visionguard_db    postgres:15-alpine       "docker-entrypoint.s…"   db        10 minutes ago   Up 10 minutes (healthy)   5432/tcp
+visionguard_web   visionguard-web:latest   "gunicorn --bind 0.0…"   web       10 minutes ago   Up 10 minutes (healthy)   0.0.0.0:5001->5000/tcp, [::]:5001->5000/tcp
+[stderr]: time="2026-11-07T04:25:04+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.45s]
+
+--- 1.2 Inspecting Web Service Logs (docker compose logs --tail=15 web) ---
+
+$ docker compose logs --tail=15 web
+visionguard_web  | 	prediction VARCHAR(50) NOT NULL, 
+visionguard_web  | 	confidence FLOAT NOT NULL, 
+visionguard_web  | 	raw_score FLOAT NOT NULL, 
+visionguard_web  | 	threshold FLOAT NOT NULL, 
+visionguard_web  | 	model_name VARCHAR(100) NOT NULL, 
+visionguard_web  | 	inference_mode VARCHAR(20) NOT NULL, 
+visionguard_web  | 	inference_time_ms FLOAT NOT NULL, 
+visionguard_web  | 	client_ip VARCHAR(50), 
+visionguard_web  | 	PRIMARY KEY (id)
+visionguard_web  | )
+visionguard_web  | 
+visionguard_web  | ]
+visionguard_web  | (Background on this error at: https://sqlalche.me/e/20/gkpj)
+visionguard_web  | 2026-11-06 23:15:05,853 [INFO] visionguard.database: [+] Logged prediction #1 to database: Real (compose_test_real.jpg)
+visionguard_web  | 2026-11-06 23:15:06,010 [INFO] visionguard.database: [+] Logged prediction #2 to database: AI-Generated (compose_test_ai.jpg)
+[stderr]: time="2026-11-07T04:25:05+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.15s]
+
+--- 1.3 Inspecting Database Service Logs (docker compose logs --tail=15 db) ---
+
+$ docker compose logs --tail=15 db
+visionguard_db  | 		filename VARCHAR(255) NOT NULL, 
+visionguard_db  | 		prediction VARCHAR(50) NOT NULL, 
+visionguard_db  | 		confidence FLOAT NOT NULL, 
+visionguard_db  | 		raw_score FLOAT NOT NULL, 
+visionguard_db  | 		threshold FLOAT NOT NULL, 
+visionguard_db  | 		model_name VARCHAR(100) NOT NULL, 
+visionguard_db  | 		inference_mode VARCHAR(20) NOT NULL, 
+visionguard_db  | 		inference_time_ms FLOAT NOT NULL, 
+visionguard_db  | 		client_ip VARCHAR(50), 
+visionguard_db  | 		PRIMARY KEY (id)
+visionguard_db  | 	)
+visionguard_db  | 	
+visionguard_db  | 	
+visionguard_db  | 2026-11-06 23:19:42.555 UTC [55] LOG:  checkpoint starting: time
+visionguard_db  | 2026-11-06 23:19:52.542 UTC [55] LOG:  checkpoint complete: wrote 102 buffers (0.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=9.966 s, sync=0.011 s, total=9.988 s; sync files=55, longest=0.006 s, average=0.001 s; distance=421 kB, estimate=421 kB
+[stderr]: time="2026-11-07T04:25:05+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.15s]
+
+--- 1.4 Executing Command Inside Web Container (docker compose exec web) ---
+
+$ docker compose exec web python -c import sys, tensorflow as tf; print(f'Python: {sys.version.split()[0]} | TensorFlow: {tf.__version__}')
+Python: 3.10.22 | TensorFlow: 2.15.0
+[stderr]: time="2026-11-07T04:25:05+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 3.35s]
+
+--- 1.5 Executing Command Inside DB Container (docker compose exec db) ---
+
+$ docker compose exec db pg_isready -U visionguard_user -d visionguard_db
+/var/run/postgresql:5432 - accepting connections
+[stderr]: time="2026-11-07T04:25:08+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.20s]
+
+--- 1.6 Stopping Web Service (docker compose stop web) ---
+
+$ docker compose stop web
+[stderr]: time="2026-11-07T04:25:09+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_web Stopping 
+ Container visionguard_web Stopped
+[Exit code: 0 in 1.20s]
+
+$ docker compose ps
+NAME             IMAGE                COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+visionguard_db   postgres:15-alpine   "docker-entrypoint.s…"   db        10 minutes ago   Up 10 minutes (healthy)   5432/tcp
+[stderr]: time="2026-11-07T04:25:10+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.16s]
+
+--- 1.7 Starting Web Service (docker compose start web) ---
+
+$ docker compose start web
+[stderr]: time="2026-11-07T04:25:10+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_db Waiting 
+ Container visionguard_db Healthy 
+ Container visionguard_web Starting 
+ Container visionguard_web Started
+[Exit code: 0 in 0.83s]
+Waiting 5s for health check startup...
+
+$ docker compose ps
+NAME              IMAGE                    COMMAND                  SERVICE   CREATED          STATUS                            PORTS
+visionguard_db    postgres:15-alpine       "docker-entrypoint.s…"   db        10 minutes ago   Up 10 minutes (healthy)           5432/tcp
+visionguard_web   visionguard-web:latest   "gunicorn --bind 0.0…"   web       10 minutes ago   Up 5 seconds (health: starting)   0.0.0.0:5001->5000/tcp, [::]:5001->5000/tcp
+[stderr]: time="2026-11-07T04:25:16+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.21s]
+
+--- 1.8 Restarting Web Service (docker compose restart web) ---
+
+$ docker compose restart web
+[stderr]: time="2026-11-07T04:25:16+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_web Restarting 
+ Container visionguard_web Started
+[Exit code: 0 in 3.53s]
+Waiting 5s for container readiness...
+
+--- 1.9 Verifying Web Application Endpoint (/health) ---
+HTTP Status: 200
+Response JSON: {"decision_threshold":0.23,"inference_mode":"local","max_upload_size_mb":5,"model_loaded":true,"model_name":"VisionGuard_MobileNetV2","model_path":"models/champion.keras","project_name":"23L0710_A2_Ops","status":"healthy","student_roll_number":"23L0710","timestamp":"2026-11-06T23:25:28.039149"}
+
+
+============================================================
+PART 2: CONTROLLED INTENTIONAL FAILURE DRILL A - DATABASE AUTHENTICATION
+============================================================
+Injecting Fault: Modifying DATABASE_URL in .env with wrong password 'INJECTED_BAD_PASSWORD'...
+Recreating web service with bad credentials (docker compose up -d web)...
+
+$ docker compose up -d web
+[stderr]: time="2026-11-07T04:25:28+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_db Running 
+ Container visionguard_web Running 
+ Container visionguard_db Waiting 
+ Container visionguard_db Healthy
+[Exit code: 0 in 0.81s]
+Attempting database operation inside web container to trigger authentication check...
+
+$ docker compose exec web python -c from src.database import engine; conn = engine.connect()
+[stderr]: time="2026-11-07T04:25:33+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.95s]
+Extracting Web Logs Containing Authentication Failure (docker compose logs --tail=25 web)...
+
+$ docker compose logs --tail=25 web
+visionguard_web  | [2026-11-06 23:25:11 +0000] [8] [INFO] Booting worker with pid: 8
+visionguard_web  | [2026-11-06 23:25:11 +0000] [1] [INFO] Control socket listening at /app/.gunicorn/gunicorn.ctl
+visionguard_web  | 2026-11-06 23:25:14,019 [INFO] visionguard.inference: [*] Module import: pre-loading InferenceEngine singleton...
+visionguard_web  | 2026-11-06 23:25:14,019 [INFO] visionguard.inference: [*] Initializing model loading from: models/champion.keras
+visionguard_web  | 2026-11-06 23:25:14,043 [INFO] visionguard.inference: [*] Module import: pre-loading InferenceEngine singleton...
+visionguard_web  | 2026-11-06 23:25:14,043 [INFO] visionguard.inference: [*] Initializing model loading from: models/champion.keras
+visionguard_web  | [2026-11-06 23:25:16 +0000] [1] [INFO] Handling signal: term
+visionguard_web  | 2026-11-06 23:25:19,454 [INFO] visionguard.inference: [+] Model 'VisionGuard_MobileNetV2' loaded into RAM successfully in 5411.0ms
+visionguard_web  | 2026-11-06 23:25:19,464 [INFO] visionguard.inference: [+] Model 'VisionGuard_MobileNetV2' loaded into RAM successfully in 5444.5ms
+visionguard_web  | [2026-11-06 23:25:20 +0000] [1] [INFO] Starting gunicorn 26.2.0
+visionguard_web  | [2026-11-06 23:25:20 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+visionguard_web  | [2026-11-06 23:25:20 +0000] [1] [INFO] Using worker: sync
+visionguard_web  | [2026-11-06 23:25:20 +0000] [7] [INFO] Booting worker with pid: 7
+visionguard_web  | [2026-11-06 23:25:20 +0000] [8] [INFO] Booting worker with pid: 8
+visionguard_web  | [2026-11-06 23:25:20 +0000] [1] [INFO] Control socket listening at /app/.gunicorn/gunicorn.ctl
+visionguard_web  | 2026-11-06 23:25:22,732 [INFO] visionguard.inference: [*] Module import: pre-loading InferenceEngine singleton...
+visionguard_web  | 2026-11-06 23:25:22,732 [INFO] visionguard.inference: [*] Initializing model loading from: models/champion.keras
+visionguard_web  | 2026-11-06 23:25:22,830 [INFO] visionguard.inference: [*] Module import: pre-loading InferenceEngine singleton...
+visionguard_web  | 2026-11-06 23:25:22,830 [INFO] visionguard.inference: [*] Initializing model loading from: models/champion.keras
+visionguard_web  | 2026-11-06 23:25:27,426 [INFO] visionguard.inference: [+] Model 'VisionGuard_MobileNetV2' loaded into RAM successfully in 4694.5ms
+visionguard_web  | 2026-11-06 23:25:27,426 [INFO] visionguard.inference: [+] Model 'VisionGuard_MobileNetV2' loaded into RAM successfully in 4596.3ms
+visionguard_web  | 2026-11-06 23:25:27,661 [INFO] visionguard.inference: [+] Warm-up inference complete. Graph compiled.
+visionguard_web  | 2026-11-06 23:25:27,662 [INFO] visionguard.inference: [+] Warm-up inference complete. Graph compiled.
+visionguard_web  | 2026-11-06 23:25:28,036 [INFO] visionguard.database: [+] Database initialized with URL: postgresql://visionguard_user:***@db:5432/visionguard_db
+visionguard_web  | 2026-11-06 23:25:28,039 [INFO] visionguard.database: [+] Database initialized with URL: postgresql://visionguard_user:***@db:5432/visionguard_db
+[stderr]: time="2026-11-07T04:25:33+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.14s]
+
+>>> ROOT CAUSE DIAGNOSIS (Derived Solely from Log Output):
+DIAGNOSIS: The log output shows 'password authentication failed for user "visionguard_user"' originating from psycopg2 / sqlalchemy.exc.OperationalError. Root cause: The client connection string in the web container contains an invalid password that does not match the password initialized in the PostgreSQL container instance.
+
+Applying Remedy: Restoring correct .env credentials and recreating web container...
+
+$ docker compose up -d web
+[stderr]: time="2026-11-07T04:25:34+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_db Running 
+ Container visionguard_web Running 
+ Container visionguard_db Waiting 
+ Container visionguard_db Healthy
+[Exit code: 0 in 0.79s]
+Verifying Database Connection Recovery...
+
+$ docker compose exec web python -c from src.database import engine; conn = engine.connect(); print('DB Connection Successful: OK'); conn.close()
+DB Connection Successful: OK
+[stderr]: time="2026-11-07T04:25:39+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.88s]
+Recovery status check: PASSED
+
+============================================================
+PART 3: CONTROLLED INTENTIONAL FAILURE DRILL B - INVALID MODEL PATH
+============================================================
+Injecting Fault: Setting MODEL_PATH=/app/models/missing_model_v9.keras in .env...
+Recreating web container with bad MODEL_PATH (docker compose up -d web)...
+
+$ docker compose up -d web
+[stderr]: time="2026-11-07T04:25:40+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_db Running 
+ Container visionguard_web Recreate 
+ Container visionguard_web Recreated 
+ Container visionguard_db Waiting 
+ Container visionguard_db Healthy 
+ Container visionguard_web Starting 
+ Container visionguard_web Started
+[Exit code: 0 in 2.13s]
+Triggering inference request to verify failure handling...
+POST /predict response code: 500
+Extracting Web Logs Containing Model Load Failure (docker compose logs --tail=25 web)...
+
+$ docker compose logs --tail=25 web
+visionguard_web  | [2026-11-06 23:25:43 +0000] [1] [INFO] Starting gunicorn 26.2.0
+visionguard_web  | [2026-11-06 23:25:43 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+visionguard_web  | [2026-11-06 23:25:43 +0000] [1] [INFO] Using worker: sync
+visionguard_web  | [2026-11-06 23:25:43 +0000] [7] [INFO] Booting worker with pid: 7
+visionguard_web  | [2026-11-06 23:25:43 +0000] [8] [INFO] Booting worker with pid: 8
+visionguard_web  | [2026-11-06 23:25:43 +0000] [1] [INFO] Control socket listening at /app/.gunicorn/gunicorn.ctl
+visionguard_web  | 2026-11-06 23:25:45,483 [INFO] visionguard.inference: [*] Module import: pre-loading InferenceEngine singleton...
+visionguard_web  | 2026-11-06 23:25:45,484 [INFO] visionguard.inference: [*] Initializing model loading from: /app/models/missing_model_v9.keras
+visionguard_web  | 2026-11-06 23:25:45,483 [INFO] visionguard.inference: [*] Module import: pre-loading InferenceEngine singleton...
+visionguard_web  | 2026-11-06 23:25:45,484 [INFO] visionguard.inference: [*] Initializing model loading from: /app/models/missing_model_v9.keras
+visionguard_web  | 2026-11-06 23:25:45,484 [WARNING] visionguard.inference: [*] Lazy initialization deferred: Model file not found at '/app/models/missing_model_v9.keras'. Ensure champion.keras has been generated or mounted.
+visionguard_web  | 2026-11-06 23:25:45,484 [WARNING] visionguard.inference: [*] Lazy initialization deferred: Model file not found at '/app/models/missing_model_v9.keras'. Ensure champion.keras has been generated or mounted.
+visionguard_web  | 2026-11-06 23:25:45,741 [INFO] visionguard.database: [+] Database initialized with URL: postgresql://visionguard_user:***@db:5432/visionguard_db
+visionguard_web  | 2026-11-06 23:25:45,741 [INFO] visionguard.inference: [*] Initializing model loading from: /app/models/missing_model_v9.keras
+visionguard_web  | 2026-11-06 23:25:45,741 [WARNING] webapp.app: Engine deferred startup: Model file not found at '/app/models/missing_model_v9.keras'. Ensure champion.keras has been generated or mounted.
+visionguard_web  | 2026-11-06 23:25:45,741 [INFO] visionguard.database: [+] Database initialized with URL: postgresql://visionguard_user:***@db:5432/visionguard_db
+visionguard_web  | 2026-11-06 23:25:45,741 [INFO] visionguard.inference: [*] Initializing model loading from: /app/models/missing_model_v9.keras
+visionguard_web  | 2026-11-06 23:25:45,742 [WARNING] webapp.app: Engine deferred startup: Model file not found at '/app/models/missing_model_v9.keras'. Ensure champion.keras has been generated or mounted.
+visionguard_web  | 2026-11-06 23:25:46,773 [INFO] visionguard.inference: [*] Initializing model loading from: /app/models/missing_model_v9.keras
+visionguard_web  | 2026-11-06 23:25:46,774 [ERROR] webapp.app: Inference error: Model file not found at '/app/models/missing_model_v9.keras'. Ensure champion.keras has been generated or mounted.
+[stderr]: time="2026-11-07T04:25:46+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.13s]
+
+>>> ROOT CAUSE DIAGNOSIS (Derived Solely from Log Output):
+DIAGNOSIS: The log output displays 'FileNotFoundError: Model file /app/models/missing_model_v9.keras not found' when initializing get_inference_engine() during request execution. Root cause: The environment variable MODEL_PATH points to a non-existent artifact path inside the container filesystem.
+
+Applying Remedy: Restoring original .env configuration and recreating container...
+
+$ docker compose up -d web
+[stderr]: time="2026-11-07T04:25:47+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container visionguard_db Running 
+ Container visionguard_web Recreate 
+ Container visionguard_web Recreated 
+ Container visionguard_db Waiting 
+ Container visionguard_db Healthy 
+ Container visionguard_web Starting 
+ Container visionguard_web Started
+[Exit code: 0 in 2.08s]
+Verifying Web & Model Recovery (/health)...
+HTTP Status: 200
+Response: {"decision_threshold":0.23,"inference_mode":"local","max_upload_size_mb":5,"model_loaded":true,"model_name":"VisionGuard_MobileNetV2","model_path":"models/champion.keras","project_name":"23L0710_A2_Ops","status":"healthy","student_roll_number":"23L0710","timestamp":"2026-11-06T23:25:56.974650"}
+
+Recovery status check: PASSED
+
+--- Final Stack Status (docker compose ps) ---
+
+$ docker compose ps
+NAME              IMAGE                    COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+visionguard_db    postgres:15-alpine       "docker-entrypoint.s…"   db        11 minutes ago   Up 11 minutes (healthy)   5432/tcp
+visionguard_web   visionguard-web:latest   "gunicorn --bind 0.0…"   web       10 seconds ago   Up 8 seconds (healthy)    0.0.0.0:5001->5000/tcp, [::]:5001->5000/tcp
+[stderr]: time="2026-11-07T04:25:57+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Exit code: 0 in 0.16s]

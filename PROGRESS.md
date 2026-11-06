@@ -183,10 +183,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `src/image_analysis.py`, `evidence/task6/image_analysis_layers.txt`, `evidence/task6/image_analysis_report.md`
   - Evidence collected: Layer-by-layer breakdown via `docker history visionguard-web:latest`; two mandatory rubric size numbers reported (Before Optimization: 3.84 GB, After Optimization: 1.94 GB, Net Reduction: 1.90 GB / 49.5%); written technical justification detailing base image selection (`python:3.10-slim`), CPU TensorFlow (`tensorflow-cpu`), pip cache pruning (`--no-cache-dir`), apt metadata cleanup, and production impact on cold-start latency and attack surface
-- [ ] **6.5 Operations & Troubleshooting (1.5 marks)**
-  - Status: Not started
-  - Dependencies: 6.3
-  - Evidence needed: Service lifecycle commands, logs of intentional failure, diagnosis, and fix
+- [x] **6.5 Operations & Troubleshooting (1.5 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/test_compose_troubleshooting.py`, `evidence/task6/troubleshooting_logs.txt`, `evidence/task6/troubleshooting_report.md`, `evidence/task6/troubleshooting_terminal.png`
+  - Evidence collected: Operational commands executed across multi-container stack (`docker compose ps`, `logs`, `exec`, `stop`, `start`, `restart`); two controlled intentional failure drills executed (Fault A: database password mismatch, Fault B: invalid model artifact path); root cause diagnoses derived solely from container log excerpts; fixes applied and full service recovery verified back to healthy state (`status: healthy`, HTTP 200 OK)
 - [ ] **6.6 GitHub Actions CI Tool Lab (2 marks)**
   - Status: Not started
   - Dependencies: Git repository on GitHub
