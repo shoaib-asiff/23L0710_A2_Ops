@@ -14,7 +14,7 @@
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Completed (All 2.1-2.7) | 14/14 Marks Verified (Input Pipeline, Baseline CNN, Transfer Learning, Training Discipline, Evaluation & Threshold, Error Analysis, Keras Tuner) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
-| **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Not started | Local MLflow toy, DagsHub setup, 6 VisionGuard runs, Model Registry |
+| **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | In progress (3.1 Done) | 3.1 Verified (Local SQLite MLflow, 2 Runs, LR Curves, Conceptual Definitions) |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
 | **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
 | **Task 6** | Containerization with Docker & CI | 14 | Not started | Docker warm-up, Web Dockerfile, Compose stack, CI workflow |
@@ -96,10 +96,11 @@
 ---
 
 ### Task 3: Experiment Tracking with MLflow and DagsHub (12 marks)
-- [ ] **3.1 MLflow Local Tool Lab (2 marks)**
-  - Status: Not started
-  - Dependencies: MLflow installation
-  - Evidence needed: Screenshots of runs, comparison view, definitions of experiment/run/param/metric/artifact/tag
+- [x] **3.1 MLflow Local Tool Lab (2 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/mlflow_toy.py`, `evidence/task3/toy_run_comparison.md`, `evidence/task3/mlflow_toy_definitions.md`, `evidence/task3/toy_run1_curves.png`, `evidence/task3/toy_run2_curves.png`, `evidence/task3/toy_comparison_curves.png`
+  - Evidence collected: Two local MLflow runs (`run_1_lr_0.001` vs `run_2_lr_0.010`), logged hyperparameters, dynamic per-epoch metrics, serialized Keras models, comparative curves, and student-authored definitions for Experiment, Run, Parameter, Metric, Artifact, and Tag
 - [ ] **3.2 DagsHub Setup (2 marks)**
   - Status: Not started
   - Dependencies: 3.1, GitHub repo created, DagsHub account linked
