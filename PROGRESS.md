@@ -12,7 +12,7 @@
 | Task | Description | Marks | Status | Deliverables / Evidence |
 | :--- | :--- | :---: | :---: | :--- |
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
-| **Task 2** | Model Development with TensorFlow/Keras | 14 | Not started | tf.data pipeline, Baseline CNN, Transfer Learning, Evaluation, Keras Tuner |
+| **Task 2** | Model Development with TensorFlow/Keras | 14 | In progress (2.1 Done) | 2.1 Verified (tf.data Pipeline & Augmented Batch) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Not started | Grad-CAM heatmaps for 4 correct & 4 wrong predictions |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Not started | Local MLflow toy, DagsHub setup, 6 VisionGuard runs, Model Registry |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
@@ -52,10 +52,11 @@
 ---
 
 ### Task 2: Model Development with TensorFlow/Keras (14 marks)
-- [ ] **2.1 Input Pipeline (2 marks)**
-  - Status: Not started
-  - Dependencies: 1.2
-  - Evidence needed: Pipeline description, figure of one augmented batch
+- [x] **2.1 Input Pipeline (2 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-06
+  - Deliverables: `src/dataset.py`, `data/processed/train_split.csv`, `data/processed/val_split.csv`, `data/processed/test_split.csv`, `evidence/task2/augmented_batch.png`, `evidence/task2/input_pipeline_description.md`
+  - Evidence collected: Pipeline architecture description, stratified 70/15/15 splits, augmented batch figure
 - [ ] **2.2 Baseline CNN (3 marks)**
   - Status: Not started
   - Dependencies: 2.1
