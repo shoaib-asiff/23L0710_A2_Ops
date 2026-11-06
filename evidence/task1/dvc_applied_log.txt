@@ -58,3 +58,77 @@ outs:
 44:/archive
 
 [STEP 8] Committing DVC pointer files and project baseline to Git...
+[main (root-commit) 362136f] feat(dvc): initialize DVC and track raw dataset archive.dvc
+ 27 files changed, 2801 insertions(+)
+ create mode 100644 .dvc/.gitignore
+ create mode 100644 .dvc/config
+ create mode 100644 .dvcignore
+ create mode 100644 .gitignore
+ create mode 100644 IMPLEMENTATION_PLAN.md
+ create mode 100644 PROGRESS.md
+ create mode 100644 archive.dvc
+ create mode 100644 evidence/task1/.gitkeep
+ create mode 100644 evidence/task1/audit_manifest.csv
+ create mode 100644 evidence/task1/audit_summary.md
+ create mode 100644 evidence/task1/audit_table.txt
+ create mode 100644 evidence/task1/dvc_applied_log.txt
+ create mode 100644 evidence/task1/dvc_toy_demo_log.txt
+ create mode 100644 evidence/task1/eda_aspect_ratio_hist.png
+ create mode 100644 evidence/task1/eda_dimensions_hist.png
+ create mode 100644 evidence/task1/eda_filesize_hist.png
+ create mode 100644 evidence/task1/eda_interpretations.md
+ create mode 100644 evidence/task1/eda_sample_grid_ai_generated.png
+ create mode 100644 evidence/task1/eda_sample_grid_comparison.png
+ create mode 100644 evidence/task1/eda_sample_grid_real.png
+ create mode 100644 evidence/task1/env_versions.txt
+ create mode 100644 requirements.txt
+ create mode 100644 src/audit.py
+ create mode 100644 src/eda.py
+ create mode 100755 src/run_dvc_applied.sh
+ create mode 100755 src/run_dvc_toy.sh
+ create mode 100644 src/verify_env.py
+
+Git status summary:
+ M evidence/task1/dvc_applied_log.txt
+?? "Assignment 2.pdf"
+?? toy_dvc_demo/
+
+Latest Git commit:
+commit 362136f867ba538c94520157ed80802801cc0156
+Author: 23L0710 <23L0710@student.university.edu>
+Date:   Fri Nov 6 23:24:27 2026 +0500
+
+    feat(dvc): initialize DVC and track raw dataset archive.dvc
+
+ .dvc/.gitignore                                 |   1 +
+ .dvc/config                                     |   4 +
+ .dvcignore                                      |   3 +
+ .gitignore                                      |  44 ++
+ IMPLEMENTATION_PLAN.md                          | 431 +++++++++++
+ PROGRESS.md                                     | 195 +++++
+ archive.dvc                                     |   6 +
+ evidence/task1/.gitkeep                         |   2 +
+ evidence/task1/audit_manifest.csv               | 974 ++++++++++++++++++++++++
+ evidence/task1/audit_summary.md                 |  48 ++
+ evidence/task1/audit_table.txt                  |  19 +
+ evidence/task1/dvc_applied_log.txt              |  60 ++
+ evidence/task1/dvc_toy_demo_log.txt             | 154 ++++
+ evidence/task1/eda_aspect_ratio_hist.png        | Bin 0 -> 164599 bytes
+ evidence/task1/eda_dimensions_hist.png          | Bin 0 -> 278353 bytes
+ evidence/task1/eda_filesize_hist.png            | Bin 0 -> 245737 bytes
+ evidence/task1/eda_interpretations.md           |  35 +
+ evidence/task1/eda_sample_grid_ai_generated.png | Bin 0 -> 9579128 bytes
+ evidence/task1/eda_sample_grid_comparison.png   | Bin 0 -> 7176397 bytes
+ evidence/task1/eda_sample_grid_real.png         | Bin 0 -> 7795629 bytes
+ evidence/task1/env_versions.txt                 |  44 ++
+ requirements.txt                                |  26 +
+ src/audit.py                                    | 220 ++++++
+ src/eda.py                                      | 214 ++++++
+ src/run_dvc_applied.sh                          |  84 ++
+ src/run_dvc_toy.sh                              | 138 ++++
+ src/verify_env.py                               |  99 +++
+ 27 files changed, 2801 insertions(+)
+
+======================================================================
+          APPLIED DVC TRACKING COMPLETED SUCCESSFULLY!                
+======================================================================
