@@ -11,7 +11,7 @@
 
 | Task | Description | Marks | Status | Deliverables / Evidence |
 | :--- | :--- | :---: | :---: | :--- |
-| **Task 1** | Data Understanding and Versioning | 7 | In progress (1.1, 1.2, 1.3 Done) | 1.1, 1.2, 1.3 Verified (EDA Figures & Interpretations Ready) |
+| **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Not started | tf.data pipeline, Baseline CNN, Transfer Learning, Evaluation, Keras Tuner |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Not started | Grad-CAM heatmaps for 4 correct & 4 wrong predictions |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Not started | Local MLflow toy, DagsHub setup, 6 VisionGuard runs, Model Registry |
@@ -43,10 +43,11 @@
   - Completed on: 2026-11-06
   - Deliverables: `src/eda.py`, `evidence/task1/eda_sample_grid_comparison.png`, `evidence/task1/eda_dimensions_hist.png`, `evidence/task1/eda_filesize_hist.png`, `evidence/task1/eda_aspect_ratio_hist.png`
   - Evidence collected: 5 figures with full captions and 2-3 sentence interpretations in `evidence/task1/eda_interpretations.md`
-- [ ] **1.4 DVC Versioning (1.5 marks)**
-  - Status: Not started
-  - Dependencies: 1.3, Git init
-  - Evidence needed: Screenshots of toy commits, data version switching, remote push/pull, dataset DVC pointer
+- [x] **1.4 DVC Versioning (1.5 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-06
+  - Deliverables: `src/run_dvc_toy.sh`, `toy_dvc_demo/`, `src/run_dvc_applied.sh`, `archive.dvc`, `evidence/task1/dvc_explanation.md`
+  - Evidence collected: `evidence/task1/dvc_toy_demo_log.txt`, `evidence/task1/dvc_applied_log.txt`, initial git commits, pointer file breakdown
 
 ---
 
