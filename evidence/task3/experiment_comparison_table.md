@@ -1,0 +1,10 @@
+# Task 3.5: VisionGuard Experiment Comparison Table (6 Runs)
+
+| Run # | Run Name | Meaningful Variation | LR | Aug | Unfrozen | Dropout | Val Acc | Test Acc | Test F1 | Test ROC-AUC | Live DagsHub Run |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| 1 | `exp1_frozen_backbone_lr1e3` | Feature Extraction (Frozen Backbone, Standard Adam LR) | 1e-03 | Yes | 0 | 0.3 | 70.55% | 61.64% | 0.7431 | 0.8634 | [View on DagsHub](https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow/#/experiments/2/runs/5e42deb91f8741ce9fb8da3e258f13bd) |
+| 2 | `exp2_unfreeze10_lr1e4` | Partial Fine-Tuning (Last 10 Layers Unfrozen, LR=1e-4) | 1e-04 | Yes | 10 | 0.3 | 62.33% | 76.71% | 0.8068 | 0.8568 | [View on DagsHub](https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow/#/experiments/2/runs/b3dedcb837ec443397a6e4e3cf1df9b1) |
+| 3 | `exp3_champion_unfreeze20_lr5e5` **(CHAMPION)** | Champion Fine-Tuning (Tuned: 20 Layers, LR=5e-5, Dropout=0.3) | 5e-05 | Yes | 20 | 0.3 | **69.18%** | **59.59%** | **0.7281** | **0.8401** | [View on DagsHub](https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow/#/experiments/2/runs/bb6d4446ea174baf8ea6f433772a4291) |
+| 4 | `exp4_unfreeze20_no_aug` | Ablation: No Data Augmentation (Overfitting Risk Test) | 5e-05 | No | 20 | 0.3 | 74.66% | 68.49% | 0.7700 | 0.8640 | [View on DagsHub](https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow/#/experiments/2/runs/1efb019ff4a143fb8eba0483b1248992) |
+| 5 | `exp5_unfreeze20_high_dropout` | Regularization Ablation: High Dropout (0.5 vs 0.3) | 5e-05 | Yes | 20 | 0.5 | 67.12% | 72.60% | 0.7938 | 0.8300 | [View on DagsHub](https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow/#/experiments/2/runs/b20200e8e66d47d79812fe010422038f) |
+| 6 | `exp6_baseline_cnn_from_scratch` | Architectural Baseline: 4-Block ConvNet from Scratch | 1e-03 | Yes | All (Scratch) | 0.4 | 45.21% | 55.48% | 0.7137 | 0.5793 | [View on DagsHub](https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow/#/experiments/2/runs/af67dcc9a752405ca74b0369e467ec66) |
