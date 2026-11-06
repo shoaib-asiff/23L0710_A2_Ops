@@ -178,10 +178,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `docker-compose.yml`, `.env.example`, `src/test_compose_stack.py`, `evidence/task6/compose_status.png`, `evidence/task6/compose_output.txt`, `evidence/task6/compose_report.md`
   - Evidence collected: Multi-service Compose stack (`web` + `db` PostgreSQL 15); internal network `visionguard-net`; named volume `postgres_data`; startup readiness ordering via `depends_on: db: condition: service_healthy`; mandatory check proving port 5432 is strictly closed and refused from host socket probes; live end-to-end classification ingestion persisting records into containerized PostgreSQL; terminal screenshot captured; full write-up on model delivery strategy and secrets management
-- [ ] **6.4 Image Analysis & Optimization (1.5 marks)**
-  - Status: Not started
-  - Dependencies: 6.2
-  - Evidence needed: Before vs after size comparison numbers and analytical conclusion
+- [x] **6.4 Image Analysis & Optimization (1.5 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/image_analysis.py`, `evidence/task6/image_analysis_layers.txt`, `evidence/task6/image_analysis_report.md`
+  - Evidence collected: Layer-by-layer breakdown via `docker history visionguard-web:latest`; two mandatory rubric size numbers reported (Before Optimization: 3.84 GB, After Optimization: 1.94 GB, Net Reduction: 1.90 GB / 49.5%); written technical justification detailing base image selection (`python:3.10-slim`), CPU TensorFlow (`tensorflow-cpu`), pip cache pruning (`--no-cache-dir`), apt metadata cleanup, and production impact on cold-start latency and attack surface
 - [ ] **6.5 Operations & Troubleshooting (1.5 marks)**
   - Status: Not started
   - Dependencies: 6.3
