@@ -1,0 +1,49 @@
+=====================================================================================
+         TASK 6.3: DOCKER COMPOSE MULTI-SERVICE STACK VERIFICATION & PROOFS          
+=====================================================================================
+Student Roll Number : 23L0710
+Project Name        : 23L0710_A2_Ops
+Stack Configuration : docker-compose.yml
+-------------------------------------------------------------------------------------
+1. SERVICE HEALTH STATUS (docker compose ps):
+time="2026-11-07T04:15:05+05:00" level=warning msg="/Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+NAME              IMAGE                    COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+visionguard_db    postgres:15-alpine       "docker-entrypoint.s…"   db        25 seconds ago   Up 24 seconds (healthy)   5432/tcp
+visionguard_web   visionguard-web:latest   "gunicorn --bind 0.0…"   web       25 seconds ago   Up 19 seconds (healthy)   0.0.0.0:5001->5000/tcp, [::]:5001->5000/tcp
+
+HEALTH STATUS ASSESSMENT:
+- Service 'db'  (PostgreSQL 15)       : HEALTHY (Passed pg_isready healthcheck)
+- Service 'web' (VisionGuard Flask)   : HEALTHY / RUNNING (Depends on db readiness)
+
+-------------------------------------------------------------------------------------
+2. MANDATORY RUBRIC CHECK — PROOF THAT DATABASE PORT 5432 IS CLOSED FROM OUTSIDE:
+Command: socket.connect(('127.0.0.1', 5432))
+Observed Result: ConnectionRefusedError [Errno 61] Connection refused
+Assessment: PASS
+Proof: Port 5432 is published with 'expose: 5432' (internal to 'visionguard-net'),
+       and is NOT mapped to the host physical interface. External port scans cannot reach it.
+
+-------------------------------------------------------------------------------------
+3. POSTGRESQL INTERNAL CONNECTIVITY & PERSISTENCE PROOF:
+$ docker exec visionguard_db psql -U visionguard_user -d visionguard_db -c "SELECT ... FROM prediction_records;"
+id |       filename        |  prediction  | confidence | inference_time_ms |         timestamp          
+----+-----------------------+--------------+------------+-------------------+----------------------------
+  2 | compose_test_ai.jpg   | AI-Generated |         50 |            129.24 | 2026-11-06 23:15:06.007265
+  1 | compose_test_real.jpg | Real         |      83.97 |            134.18 | 2026-11-06 23:15:05.845577
+(2 rows)
+
+-------------------------------------------------------------------------------------
+4. WEB HEALTHCHECK RESPONSE (http://127.0.0.1:5001/health):
+{
+  "decision_threshold": 0.23,
+  "inference_mode": "local",
+  "max_upload_size_mb": 5,
+  "model_loaded": true,
+  "model_name": "VisionGuard_MobileNetV2",
+  "model_path": "models/champion.keras",
+  "project_name": "23L0710_A2_Ops",
+  "status": "healthy",
+  "student_roll_number": "23L0710",
+  "timestamp": "2026-11-06T23:15:05.679861"
+}
+=====================================================================================

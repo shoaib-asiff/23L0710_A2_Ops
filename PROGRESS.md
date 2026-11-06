@@ -2,7 +2,7 @@
 
 **Project:** VisionGuard — AI vs Real Image Classification and Deployment  
 **Standard Naming:** `23L0710_A2_Ops`  
-**Current Status:** Task 6.2 Complete (58 / 100 Marks Verified)  
+**Current Status:** Task 6.3 Complete (62 / 100 Marks Verified)  
 **Last Updated:** 2026-11-07  
 
 ---
@@ -17,7 +17,7 @@
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Completed (All 3.1-3.6) | 12/12 Marks Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts, Model Registry @champion & Loader) |
 | **Task 4** | Flask Web Application | 12 | Completed (All 4.1-4.4) | 12/12 Marks Verified (Singleton Inference Engine, Preprocessing Parity, Defensive Routes & 3 Failure Screenshots, Responsive UI with Honest Caveat, /health endpoint & debug=False report) |
 | **Task 5** | Database Trail | 8 | Completed | 8/8 Marks Verified (SQLAlchemy ORM Model, Schema DDL, Automatic Persistence on /predict, /history UI Screenshot, Database Records Dump) |
-| **Task 6** | Containerization with Docker & CI | 14 | In progress (6.1 & 6.2 Done) | 6.1 & 6.2 Verified (Docker Warm-Up Lab, Production Dockerfile, Layer Caching, Non-Root appuser, Docker Healthcheck, CPU-only TF Justification) |
+| **Task 6** | Containerization with Docker & CI | 14 | In progress (6.1, 6.2 & 6.3 Done) | 6.1-6.3 Verified (Warm-Up Lab, Production Dockerfile, Compose Stack web+db, Proof of Closed Port 5432, Service Health, Model Delivery Strategy) |
 | **Task 7** | Cloud API Deployment | 15 | Not started | Cloud-hosted API, /health & /predict, Postman tests, Live URL |
 | **Task 8** | Integrating Flask & Cloud API | 15 | Not started | Localhost Flask $\to$ Cloud API, DB logging, End-to-end evidence |
 | **Report** | PDF Report Compilation | — | Not started | `<ROLL_NUMBER>_VisionGuard.pdf` with all required evidence |
@@ -173,10 +173,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `Dockerfile`, `.dockerignore`, `requirements-docker.txt`, `src/test_dockerfile.py`, `evidence/task6/dockerfile_user_check.txt`, `evidence/task6/dockerfile_report.md`
   - Evidence collected: Minimal `python:3.10-slim` base image; layer caching optimization (dependencies copied & installed before source code); non-root user `appuser:appgroup` verified via `whoami` and `id`; native Docker `HEALTHCHECK` targeting `/health` (Status: healthy, 200 OK); `.dockerignore` excluding `.env`, `.git`, caches and training data; technical justification for `tensorflow-cpu` choice saving >1.2GB over GPU TensorFlow
-- [ ] **6.3 Compose Stack (4 marks)**
-  - Status: Not started
-  - Dependencies: 6.2, PostgreSQL
-  - Evidence needed: Compose file, service health status, proof of database port closed from outside
+- [x] **6.3 Compose Stack (4 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `docker-compose.yml`, `.env.example`, `src/test_compose_stack.py`, `evidence/task6/compose_status.png`, `evidence/task6/compose_output.txt`, `evidence/task6/compose_report.md`
+  - Evidence collected: Multi-service Compose stack (`web` + `db` PostgreSQL 15); internal network `visionguard-net`; named volume `postgres_data`; startup readiness ordering via `depends_on: db: condition: service_healthy`; mandatory check proving port 5432 is strictly closed and refused from host socket probes; live end-to-end classification ingestion persisting records into containerized PostgreSQL; terminal screenshot captured; full write-up on model delivery strategy and secrets management
 - [ ] **6.4 Image Analysis & Optimization (1.5 marks)**
   - Status: Not started
   - Dependencies: 6.2
