@@ -2,7 +2,7 @@
 
 **Project:** VisionGuard — AI vs Real Image Classification and Deployment  
 **Standard Naming:** `23L0710_A2_Ops`  
-**Current Status:** Task 3 Complete (34 / 100 Marks Verified)  
+**Current Status:** Task 4.1 Complete (36 / 100 Marks Verified)  
 **Last Updated:** 2026-11-07  
 
 ---
@@ -15,7 +15,7 @@
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Completed (All 2.1-2.7) | 14/14 Marks Verified (Input Pipeline, Baseline CNN, Transfer Learning, Training Discipline, Evaluation & Threshold, Error Analysis, Keras Tuner) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Completed (All 3.1-3.6) | 12/12 Marks Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts, Model Registry @champion & Loader) |
-| **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
+| **Task 4** | Flask Web Application | 12 | In progress (4.1 Done) | 4.1 Verified (Singleton Inference Engine, Preprocessing Parity, 2-image console tests, 35.6x speedup benchmark) |
 | **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
 | **Task 6** | Containerization with Docker & CI | 14 | Not started | Docker warm-up, Web Dockerfile, Compose stack, CI workflow |
 | **Task 7** | Cloud API Deployment | 15 | Not started | Cloud-hosted API, /health & /predict, Postman tests, Live URL |
@@ -130,10 +130,11 @@
 ---
 
 ### Task 4: Flask Web Application (12 marks)
-- [ ] **4.1 Inference Module (2 marks)**
-  - Status: Not started
-  - Dependencies: 3.6 (Champion model)
-  - Evidence needed: Technical explanation, console test output for two known images
+- [x] **4.1 Inference Module (2 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `webapp/inference.py`, `src/test_inference_module.py`, `evidence/task4/task4_1_console_output.txt`, `evidence/task4/task4_1_inference_report.md`
+  - Evidence collected: Decoupled singleton inference engine loading `models/champion.keras` once at startup; full preprocessing parity (RGB conversion, aspect-ratio preserving padding to 224x224, float32 scaling, zero disk writes); console evaluation on two known ground-truth images (AI-Generated: 50.00% PASS, Real: 83.97% PASS); 35.6x throughput speedup benchmark (267.53ms in-memory vs 9529.78ms per-request reload); complete write-up on per-request loading unacceptability and training-serving preprocessing parity
 - [ ] **4.2 Routes & Validation (3 marks)**
   - Status: Not started
   - Dependencies: 4.1
