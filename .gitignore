@@ -35,6 +35,7 @@ checkpoints/
 # DVC cache (managed by DVC)
 .dvc/cache
 .dvc/tmp
+toy_dvc_demo/
 
 # Pytest & Coverage
 .pytest_cache/
@@ -42,3 +43,5 @@ checkpoints/
 htmlcov/
 
 /archive
+Assignment 2.pdf
+
