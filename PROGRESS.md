@@ -188,10 +188,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `src/test_compose_troubleshooting.py`, `evidence/task6/troubleshooting_logs.txt`, `evidence/task6/troubleshooting_report.md`, `evidence/task6/troubleshooting_terminal.png`
   - Evidence collected: Operational commands executed across multi-container stack (`docker compose ps`, `logs`, `exec`, `stop`, `start`, `restart`); two controlled intentional failure drills executed (Fault A: database password mismatch, Fault B: invalid model artifact path); root cause diagnoses derived solely from container log excerpts; fixes applied and full service recovery verified back to healthy state (`status: healthy`, HTTP 200 OK)
-- [ ] **6.6 GitHub Actions CI Tool Lab (2 marks)**
-  - Status: Not started
-  - Dependencies: Git repository on GitHub
-  - Evidence needed: Red & green toy runs, passing VisionGuard CI run, README status badge
+- [x] **6.6 GitHub Actions CI Tool Lab (2 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `.github/workflows/ci_toy.yml`, `.github/workflows/ci_visionguard.yml`, `tests/test_toy.py`, `tests/test_unit.py`, `README.md`, `evidence/task6/ci_toy_red_green.png`, `evidence/task6/ci_passing.png`, `evidence/task6/ci_report.md`
+  - Evidence collected: Toy CI dual-version Python matrix (`3.10` and `3.11`) demonstrating both Red Run failure drill (Run #`42312786844`) and Green Run pass (Run #`42313178806`); production VisionGuard CI pipeline (`lint-and-test` with flake8 and 4/4 unit tests, `docker-build` with Docker Buildx and container smoke test) passing cleanly (Run #`42313178887`); dynamic SVG build status badge embedded in `README.md`; comprehensive technical analysis documenting why CI secrets belong strictly in GitHub Repository Secrets and must never be committed to workflow YAMLs
 
 ---
 

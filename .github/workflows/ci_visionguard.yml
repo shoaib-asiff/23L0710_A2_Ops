@@ -67,3 +67,4 @@ jobs:
       - name: Container Smoke Test
         run: |
           docker run --rm visionguard-web:ci python -c "import tensorflow as tf; print(f'CI Container Verification: TensorFlow {tf.__version__} OK')"
+
