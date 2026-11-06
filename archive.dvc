@@ -1,0 +1,6 @@
+outs:
+- md5: 21fa43c3eb533c1613e51cd0085035d5.dir
+  size: 503801822
+  nfiles: 978
+  hash: md5
+  path: archive

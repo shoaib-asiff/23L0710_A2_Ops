@@ -1,0 +1,154 @@
+======================================================================
+         TASK 1.4: DVC TOY DEMONSTRATION (23L0710_A2_Ops)             
+======================================================================
+
+[STEP 1] Setting up clean toy environment...
+Working directory: /Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/toy_dvc_demo
+
+[STEP 2] Initializing Git and DVC...
+Initialized empty Git repository in /Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/toy_dvc_demo/.git/
+Initialized DVC repository.
+
+You can now commit the changes to git.
+
++---------------------------------------------------------------------+
+|                                                                     |
+|        DVC has enabled anonymous aggregate usage analytics.         |
+|     Read the analytics documentation (and how to opt-out) here:     |
+|             <https://dvc.org/doc/user-guide/analytics>              |
+|                                                                     |
++---------------------------------------------------------------------+
+
+What's next?
+------------
+- Check out the documentation: <https://dvc.org/doc>
+- Get help and share ideas: <https://dvc.org/chat>
+- Star us on GitHub: <https://github.com/treeverse/dvc>
+Git and DVC successfully initialized.
+A  .dvc/.gitignore
+A  .dvc/config
+A  .dvcignore
+
+[STEP 3] Creating data.csv (Version 1) and tracking with DVC...
+--- data.csv content (Version 1 - 5 records): ---
+id,image_name,label,confidence
+1,sample_001.jpg,Real,0.92
+2,sample_002.jpg,AI-Generated,0.88
+3,sample_003.jpg,Real,0.95
+4,sample_004.jpg,AI-Generated,0.91
+5,sample_005.jpg,Real,0.85
+
+To track the changes with git, run:
+
+	git add data.csv.dvc .gitignore
+
+To enable auto staging, run:
+
+	dvc config core.autostage true
+
+Contents of pointer file (data.csv.dvc):
+outs:
+- md5: f3dfefbb0282fe818f7a5d99d6b0639e
+  size: 182
+  hash: md5
+  path: data.csv
+[main (root-commit) b4b3a96] feat(toy): track data.csv v1 with DVC (5 records)
+ 5 files changed, 12 insertions(+)
+ create mode 100644 .dvc/.gitignore
+ create mode 100644 .dvc/config
+ create mode 100644 .dvcignore
+ create mode 100644 .gitignore
+ create mode 100644 data.csv.dvc
+Git commit and tag v1.0 created.
+
+[STEP 4] Updating data.csv to Version 2 (adding 5 new records)...
+--- data.csv content (Version 2 - 10 records): ---
+id,image_name,label,confidence
+1,sample_001.jpg,Real,0.92
+2,sample_002.jpg,AI-Generated,0.88
+3,sample_003.jpg,Real,0.95
+4,sample_004.jpg,AI-Generated,0.91
+5,sample_005.jpg,Real,0.85
+6,sample_006.jpg,AI-Generated,0.97
+7,sample_007.jpg,Real,0.89
+8,sample_008.jpg,AI-Generated,0.94
+9,sample_009.jpg,Real,0.93
+10,sample_010.jpg,AI-Generated,0.99
+
+To track the changes with git, run:
+
+	git add data.csv.dvc
+
+To enable auto staging, run:
+
+	dvc config core.autostage true
+
+Contents of updated pointer file (data.csv.dvc):
+outs:
+- md5: 3705c11d4cdd930425e7d56eaa204635
+  size: 342
+  hash: md5
+  path: data.csv
+[main 111edf5] feat(toy): update data.csv to v2 with DVC (10 records)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+Git commit and tag v2.0 created.
+
+[STEP 5] Demonstrating version restoration: Returning to v1.0...
+Checking out Git tag v1.0...
+Running dvc checkout to restore data file content...
+M       data.csv
+--- data.csv content after checkout to v1.0: ---
+id,image_name,label,confidence
+1,sample_001.jpg,Real,0.92
+2,sample_002.jpg,AI-Generated,0.88
+3,sample_003.jpg,Real,0.95
+4,sample_004.jpg,AI-Generated,0.91
+5,sample_005.jpg,Real,0.85
+Line count in data.csv (Expect 6: header + 5 rows): 6
+
+Returning back to latest main branch (v2.0)...
+M       data.csv
+Line count in data.csv on main (Expect 11: header + 10 rows): 11
+
+[STEP 6] Configuring DVC remote storage...
+Setting 'toy_remote' as a default remote.
+[main d9d4601] chore(toy): configure DVC remote storage
+ 1 file changed, 4 insertions(+)
+toy_remote      /tmp/dvc_toy_remote_storage     (default)
+
+[STEP 7] Pushing tracked data to remote storage...
+1 file pushed
+Contents of remote storage directory (/tmp/dvc_toy_remote_storage):
+total 0
+drwxr-xr-x@  3 shoaib  wheel    96 Nov  6 23:23 .
+drwxrwxrwt  50 root    wheel  1600 Nov  6 23:23 ..
+drwxr-xr-x@  3 shoaib  wheel    96 Nov  6 23:23 files
+/tmp/dvc_toy_remote_storage/files/md5/37/05c11d4cdd930425e7d56eaa204635
+
+[STEP 8] Deleting local data and restoring via dvc pull...
+data.csv exists locally? NO (Successfully deleted)
+Executing dvc pull from remote storage...
+A       data.csv
+1 file fetched and 1 file added
+data.csv exists locally after dvc pull? YES (Successfully restored!)
+--- Restored data.csv content: ---
+id,image_name,label,confidence
+1,sample_001.jpg,Real,0.92
+2,sample_002.jpg,AI-Generated,0.88
+3,sample_003.jpg,Real,0.95
+4,sample_004.jpg,AI-Generated,0.91
+5,sample_005.jpg,Real,0.85
+6,sample_006.jpg,AI-Generated,0.97
+7,sample_007.jpg,Real,0.89
+8,sample_008.jpg,AI-Generated,0.94
+9,sample_009.jpg,Real,0.93
+10,sample_010.jpg,AI-Generated,0.99
+
+[STEP 9] Git history log of the toy repository:
+* d9d4601 (HEAD -> main) chore(toy): configure DVC remote storage
+* 111edf5 (tag: v2.0) feat(toy): update data.csv to v2 with DVC (10 records)
+* b4b3a96 (tag: v1.0) feat(toy): track data.csv v1 with DVC (5 records)
+
+======================================================================
+          DVC TOY DEMONSTRATION COMPLETED SUCCESSFULLY!               
+======================================================================

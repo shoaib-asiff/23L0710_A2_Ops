@@ -1,0 +1,19 @@
+[*] Starting dataset audit on: 'archive'...
+[+] Full audit manifest saved to: evidence/task1/audit_manifest.csv
+[+] Summary markdown report saved to: evidence/task1/audit_summary.md
+
+======================================================================
+                    DATASET AUDIT SUMMARY TABLE                      
+======================================================================
+       Class  Total Files  Valid Images  Corrupt Files  Duplicates  Width (Min)  Width (Median)  Width (Max)  Height (Min)  Height (Median)  Height (Max)  Size KB (Min)  Size KB (Median)  Size KB (Max)
+AI-Generated          538           538              0           2          225          1028.5         6000           135            800.0          4001          11.46            195.12        5494.32
+        Real          435           435              0           0          183           940.0         8495           158            720.0          7091          11.05            141.58        9956.40
+     Overall          973           973              0           2          183          1024.0         8495           135            768.0          7091          11.05            165.44        9956.40
+======================================================================
+
+Corrupt Files Found: 0
+Exact Duplicate Instances Found: 2
+Formats Found: {'JPEG': 830, 'PNG': 143}
+Color Modes Found: {'RGB': 894, 'RGBA': 49, 'P': 23, 'L': 7}
+======================================================================
+

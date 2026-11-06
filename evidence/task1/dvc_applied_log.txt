@@ -1,0 +1,60 @@
+======================================================================
+      TASK 1.4: APPLIED DVC ON VISIONGUARD DATASET (23L0710_A2_Ops)   
+======================================================================
+
+[STEP 1] Initializing Git in root repository...
+Initialized empty Git repository in /Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/.git/
+Git repository initialized on branch 'main'.
+
+[STEP 2] Initializing DVC...
+Initialized DVC repository.
+
+You can now commit the changes to git.
+
++---------------------------------------------------------------------+
+|                                                                     |
+|        DVC has enabled anonymous aggregate usage analytics.         |
+|     Read the analytics documentation (and how to opt-out) here:     |
+|             <https://dvc.org/doc/user-guide/analytics>              |
+|                                                                     |
++---------------------------------------------------------------------+
+
+What's next?
+------------
+- Check out the documentation: <https://dvc.org/doc>
+- Get help and share ideas: <https://dvc.org/chat>
+- Star us on GitHub: <https://github.com/treeverse/dvc>
+DVC repository initialized.
+
+[STEP 3] Configuring DVC remote storage...
+Setting 'local_remote' as a default remote.
+Configured default remote: 'local_remote' -> /tmp/visionguard_dvc_storage
+local_remote    /tmp/visionguard_dvc_storage    (default)
+
+[STEP 4] Tracking 'archive' directory with DVC...
+
+To track the changes with git, run:
+
+	git add .gitignore archive.dvc
+
+To enable auto staging, run:
+
+	dvc config core.autostage true
+'archive' directory successfully tracked by DVC.
+
+[STEP 5] Pushing raw dataset to remote storage...
+978 files pushed
+Dataset push complete. Storage location: /tmp/visionguard_dvc_storage
+
+[STEP 6] Inspecting generated pointer file (archive.dvc):
+outs:
+- md5: 21fa43c3eb533c1613e51cd0085035d5.dir
+  size: 503801822
+  nfiles: 978
+  hash: md5
+  path: archive
+
+[STEP 7] Verifying .gitignore contains /archive:
+44:/archive
+
+[STEP 8] Committing DVC pointer files and project baseline to Git...

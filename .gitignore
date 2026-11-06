@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Secrets & Environment variables
+.env
+*.env
+!.env.example
+
+# IDE & Editor files
+.vscode/
+.idea/
+
+# MLflow local tracking & artifacts
+mlruns/
+.trash/
+
+# Model checkpoints & temporary files
+checkpoints/
+*.h5
+*.keras
+*.weights.h5
+
+# DVC cache (managed by DVC)
+.dvc/cache
+.dvc/tmp
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+/archive
