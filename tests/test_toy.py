@@ -18,17 +18,18 @@ class TestToyMatrix(unittest.TestCase):
 
     def test_intentional_failure_drill(self):
         """
-        Controlled failure drill: Verifies that GitHub Actions CI pipeline
-        strictly intercepts failed assertions and flags the build with RED status.
+        Remediated test: Verifies that fixing the assertion yields a GREEN build
+        across all matrix environments (Python 3.10 and 3.11).
         """
         expected = "EXPECTED_GREEN_STATUS"
-        actual = "INTENTIONAL_RED_FAILURE_DRILL"
+        actual = "EXPECTED_GREEN_STATUS"
         self.assertEqual(
             actual,
             expected,
-            "Intentional regression drill for Task 6.6: Expecting RED failure on initial run."
+            "Remediation verification for Task 6.6: Expecting GREEN pass on second run."
         )
 
 
 if __name__ == "__main__":
     unittest.main()
+
