@@ -13,7 +13,7 @@
 | :--- | :--- | :---: | :---: | :--- |
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Completed (All 2.1-2.7) | 14/14 Marks Verified (Input Pipeline, Baseline CNN, Transfer Learning, Training Discipline, Evaluation & Threshold, Error Analysis, Keras Tuner) |
-| **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Not started | Grad-CAM heatmaps for 4 correct & 4 wrong predictions |
+| **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Not started | Local MLflow toy, DagsHub setup, 6 VisionGuard runs, Model Registry |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
 | **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
@@ -87,10 +87,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `src/tuner.py`, `evidence/task2/tuner_toy_table.md`, `evidence/task2/tuner_summary_table.md`, `evidence/task2/tuner_results.md`
   - Evidence collected: Fashion-MNIST toy lab results table (5 trials), VisionGuard MobileNetV2 applied tuning table (8 trials ranked), champion parameter identification (LR=5e-5, Dropout=0.3, Unfrozen=20), and written discussion analyzing hyperparameter sensitivity and validation set overfitting
-- [ ] **Task 2 Bonus: Grad-CAM (+1 mark)**
-  - Status: Not started
-  - Dependencies: 2.3, 2.5
-  - Evidence needed: Heatmap overlays for 4 correct & 4 wrong predictions with commentary
+- [x] **Task 2 Bonus: Grad-CAM (+1 mark)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/models/gradcam.py`, `evidence/task2/gradcam_grid.png`, `evidence/task2/gradcam_report.md`
+  - Evidence collected: Grad-CAM heatmap overlays for 4 correct predictions (2 TP, 2 TN) and 4 wrong predictions (2 FP, 2 FN), mathematical formulation of Grad-CAM, and case-by-case diagnostic attention commentary
 
 ---
 
