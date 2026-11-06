@@ -1,0 +1,43 @@
+===========================================================================
+       TASK 3.6: STANDALONE MODEL REGISTRY LOADER & INFERENCE         
+===========================================================================
+[*] MLflow Tracking URI   : https://dagshub.com/shoaib-asiff/23L0710_A2_Ops.mlflow
+[*] DagsHub User Account  : shoaib-asiff
+[*] Target Model Registry : VisionGuard_Classifier
+[*] Target Model Alias    : @champion (models:/VisionGuard_Classifier@champion)
+[*] Selected Test Image   : archive/RealArt/RealArt/images40.jpg
+[*] True Known Label      : Real
+---------------------------------------------------------------------------
+[*] Contacting DagsHub Model Registry to resolve alias '@champion'...
+[+] SUCCESS: Resolved and loaded model from registry!
+    - Underlying Model Name: VisionGuard_MobileNetV2
+    - Input Tensor Shape   : (None, 224, 224, 3)
+    - Output Tensor Shape  : (None, 1)
+---------------------------------------------------------------------------
+[*] Preprocessing input image with exact training pipeline parity...
+    - Batch Shape          : (1, 224, 224, 3)
+    - Value Range          : [0.0, 255.0]
+[*] Executing forward inference pass...
+---------------------------------------------------------------------------
+                       INFERENCE VERDICT RESULTS                       
+---------------------------------------------------------------------------
+  Raw Model Probability (AI Score) : 0.167470
+  Tuned Decision Threshold (tau*)  : 0.2300
+  Final Predicted Classification   : Real
+  Model Confidence Percentage      : 83.25%
+  True Classification Label        : Real
+  Classification Match (Accuracy)  : PASS (Correct)
+===========================================================================
+
+###########################################################################
+  SERVING ARCHITECTURE NOTE (Addressing Task 6 Serving Constraint):
+  'The serving app must not call DagsHub for every request.'
+  1. In production web serving (Flask application in Docker Compose),
+     querying remote DagsHub per request introduces unacceptable latency,
+     external network failure vulnerability, and rate-limiting risks.
+  2. Solution: The CI/CD pipeline or build workflow extracts the champion
+     model once and bakes/mounts it into the container at 'models/champion.keras'.
+  3. The Flask inference module ('webapp/inference.py') loads this champion
+     model ONCE into RAM at application startup, executing sub-millisecond
+     in-memory inference completely offline.
+###########################################################################

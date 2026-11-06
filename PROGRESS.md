@@ -2,8 +2,8 @@
 
 **Project:** VisionGuard — AI vs Real Image Classification and Deployment  
 **Standard Naming:** `23L0710_A2_Ops`  
-**Current Status:** Task 1.1 In Progress  
-**Last Updated:** 2026-11-06  
+**Current Status:** Task 3 Complete (34 / 100 Marks Verified)  
+**Last Updated:** 2026-11-07  
 
 ---
 
@@ -14,7 +14,7 @@
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Completed (All 2.1-2.7) | 14/14 Marks Verified (Input Pipeline, Baseline CNN, Transfer Learning, Training Discipline, Evaluation & Threshold, Error Analysis, Keras Tuner) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
-| **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | In progress (3.1 to 3.5 Done) | 3.1-3.5 Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts) |
+| **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Completed (All 3.1-3.6) | 12/12 Marks Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts, Model Registry @champion & Loader) |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
 | **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
 | **Task 6** | Containerization with Docker & CI | 14 | Not started | Docker warm-up, Web Dockerfile, Compose stack, CI workflow |
@@ -121,10 +121,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `src/experiment_comparison.py`, `evidence/task3/experiment_comparison_table.md`, `evidence/task3/experiment_comparison_chart.png`, `evidence/task3/experiment_comparison_report.md`
   - Evidence collected: 6 distinct experimental runs executed and logged on DagsHub MLflow varying learning rate, backbone unfreezing depth, augmentation, dropout, and architecture; comparative matrix table and comparative bar chart; written justification selecting `exp3_champion_unfreeze20_lr5e5` based on ROC-AUC, F1, and stability
-- [ ] **3.6 Model Registry & Champion Loading (1.5 marks)**
-  - Status: Not started
-  - Dependencies: 3.5
-  - Evidence needed: Registry screenshot with `champion` alias, terminal output of loading and classifying image
+- [x] **3.6 Model Registry & Champion Loading (1.5 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/registry_loader.py`, `evidence/task3/registry_loader_output.txt`, `evidence/task3/model_registry_report.md`
+  - Evidence collected: DagsHub Model Registry `VisionGuard_Classifier` configured with Version 2 tagged with alias `@champion`; standalone inference script `src/registry_loader.py` dynamically resolving and loading remote model strictly by alias over HTTPS, executing inference with complete preprocessing parity, and documenting decoupled production serving architecture
 
 ---
 
