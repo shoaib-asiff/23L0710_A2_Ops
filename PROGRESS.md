@@ -12,7 +12,7 @@
 | Task | Description | Marks | Status | Deliverables / Evidence |
 | :--- | :--- | :---: | :---: | :--- |
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
-| **Task 2** | Model Development with TensorFlow/Keras | 14 | In progress (2.1, 2.2, 2.3 Done) | 2.1, 2.2, 2.3 Verified (Pipeline, Baseline CNN, MobileNetV2 Fine-Tuning) |
+| **Task 2** | Model Development with TensorFlow/Keras | 14 | In progress (2.1 to 2.4 Done) | 2.1 to 2.4 Verified (Pipeline, Baseline CNN, MobileNetV2, Training Discipline) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Not started | Grad-CAM heatmaps for 4 correct & 4 wrong predictions |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Not started | Local MLflow toy, DagsHub setup, 6 VisionGuard runs, Model Registry |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
@@ -67,10 +67,11 @@
   - Completed on: 2026-11-06
   - Deliverables: `src/models/transfer.py`, `models/mobilenetv2_finetuned.keras`, `evidence/task2/transfer_layers_phase1.txt`, `evidence/task2/transfer_layers_phase2.txt`, `evidence/task2/transfer_learning_curves.png`, `evidence/task2/transfer_learning_report.md`
   - Evidence collected: Two sets of training curves (Phase 1 & Phase 2), trainable layer listings per stage, preprocessing justification
-- [ ] **2.4 Training Discipline (1 mark)**
-  - Status: Not started
-  - Dependencies: 2.2, 2.3
-  - Evidence needed: Loss & accuracy curves with best epoch marked, callbacks configured
+- [x] **2.4 Training Discipline (1 mark)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-06
+  - Deliverables: `src/train.py`, `models/best_checkpoint_model.keras`, `evidence/task2/training_discipline_curves.png`, `evidence/task2/training_discipline_report.md`
+  - Evidence collected: EarlyStopping, ModelCheckpoint, ReduceLROnPlateau execution, Best Epoch identified (Epoch 3, val_loss=0.5884), curves with best epoch marked
 - [ ] **2.5 Evaluation & Threshold Selection (2 marks)**
   - Status: Not started
   - Dependencies: 2.4
