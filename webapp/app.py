@@ -69,6 +69,13 @@ def create_app(test_config=None) -> Flask:
     # In-memory audit trail storage (ready to be backed by DB in Task 5)
     app.audit_trail: List[Dict[str, Any]] = []
 
+    # Initialize Database Trail (Task 5)
+    try:
+        from src.database import init_db
+        init_db()
+    except Exception as e:
+        app.logger.warning(f"Database init warning: {e}")
+
     # Pre-warm model inference engine on app creation
     try:
         get_inference_engine(
@@ -181,7 +188,8 @@ def create_app(test_config=None) -> Flask:
                 error_message=f"An error occurred while evaluating the image: {str(e)}"
             ), 500
 
-        # 9. Record to Audit Trail (Task 4.2 / Task 5 DB hook)
+        # 9. Record to Audit Trail (Task 5 Database Trail)
+        client_ip = request.headers.get("X-Forwarded-For", request.remote_addr) or "127.0.0.1"
         record = {
             "id": len(app.audit_trail) + 1,
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -189,17 +197,22 @@ def create_app(test_config=None) -> Flask:
             "prediction": result["prediction"],
             "confidence": result["confidence"],
             "raw_score": result["raw_score"],
+            "threshold": app.config["DECISION_THRESHOLD"],
+            "inference_mode": result.get("inference_mode", "local"),
             "inference_time_ms": result["inference_time_ms"],
-            "model_name": result["model_name"]
+            "model_name": result["model_name"],
+            "client_ip": client_ip
         }
         app.audit_trail.insert(0, record)  # Newest first
 
-        # If Task 5 database model is available, insert into DB as well
+        # Log permanently into Task 5 Database
         try:
             from src.database import log_prediction_to_db
-            log_prediction_to_db(record)
-        except Exception:
-            pass  # Task 5 database integration connects here
+            db_id = log_prediction_to_db(record)
+            if db_id:
+                record["id"] = db_id
+        except Exception as e:
+            app.logger.error(f"Database logging error: {e}")
 
         # 10. Render Result Page
         return render_template(

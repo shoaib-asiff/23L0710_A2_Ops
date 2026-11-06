@@ -28,6 +28,10 @@ mlflow.db
 mlflow.db-journal
 .trash/
 
+# Local databases
+*.db
+*.sqlite3
+
 # Model checkpoints & temporary files
 checkpoints/
 *.h5

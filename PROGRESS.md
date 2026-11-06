@@ -2,7 +2,7 @@
 
 **Project:** VisionGuard — AI vs Real Image Classification and Deployment  
 **Standard Naming:** `23L0710_A2_Ops`  
-**Current Status:** Task 4 Complete (45 / 100 Marks Verified)  
+**Current Status:** Task 5 Complete (53 / 100 Marks Verified)  
 **Last Updated:** 2026-11-07  
 
 ---
@@ -16,7 +16,7 @@
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Completed (All 3.1-3.6) | 12/12 Marks Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts, Model Registry @champion & Loader) |
 | **Task 4** | Flask Web Application | 12 | Completed (All 4.1-4.4) | 12/12 Marks Verified (Singleton Inference Engine, Preprocessing Parity, Defensive Routes & 3 Failure Screenshots, Responsive UI with Honest Caveat, /health endpoint & debug=False report) |
-| **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
+| **Task 5** | Database Trail | 8 | Completed | 8/8 Marks Verified (SQLAlchemy ORM Model, Schema DDL, Automatic Persistence on /predict, /history UI Screenshot, Database Records Dump) |
 | **Task 6** | Containerization with Docker & CI | 14 | Not started | Docker warm-up, Web Dockerfile, Compose stack, CI workflow |
 | **Task 7** | Cloud API Deployment | 15 | Not started | Cloud-hosted API, /health & /predict, Postman tests, Live URL |
 | **Task 8** | Integrating Flask & Cloud API | 15 | Not started | Localhost Flask $\to$ Cloud API, DB logging, End-to-end evidence |
@@ -154,10 +154,11 @@
 ---
 
 ### Task 5: Database Trail (8 marks)
-- [ ] **5.1 Database Models & Views (8 marks)**
-  - Status: Not started
-  - Dependencies: 4.2
-  - Evidence needed: Database schema, /predict logging verification, /history menu screenshot showing logged records
+- [x] **5.1 Database Models & Views (8 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/database.py`, `src/test_database.py`, `evidence/task5/schema.sql`, `evidence/task5/database_dump.txt`, `evidence/task5/history_database_ui.png`, `evidence/task5/database_report.md`
+  - Evidence collected: SQLAlchemy 2.0 ORM schema `prediction_records` with indexed `timestamp` and `prediction`; dynamic SQLite/PostgreSQL URL switching; automatic persistence hook on `POST /predict`; chronological queryable history on `GET /history`; formatted table dump of 5 logged records; headless Chrome screenshot of populated Audit Trail UI; comprehensive write-up on indexing, forensic auditability, and Docker PostgreSQL migration plan
 
 ---
 
