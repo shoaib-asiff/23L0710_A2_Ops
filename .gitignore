@@ -24,6 +24,8 @@ Thumbs.db
 
 # MLflow local tracking & artifacts
 mlruns/
+mlflow.db
+mlflow.db-journal
 .trash/
 
 # Model checkpoints & temporary files
