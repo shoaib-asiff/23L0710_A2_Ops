@@ -2,7 +2,7 @@
 
 **Project:** VisionGuard — AI vs Real Image Classification and Deployment  
 **Standard Naming:** `23L0710_A2_Ops`  
-**Current Status:** Task 6.1 Complete (55 / 100 Marks Verified)  
+**Current Status:** Task 6.2 Complete (58 / 100 Marks Verified)  
 **Last Updated:** 2026-11-07  
 
 ---
@@ -17,7 +17,7 @@
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Completed (All 3.1-3.6) | 12/12 Marks Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts, Model Registry @champion & Loader) |
 | **Task 4** | Flask Web Application | 12 | Completed (All 4.1-4.4) | 12/12 Marks Verified (Singleton Inference Engine, Preprocessing Parity, Defensive Routes & 3 Failure Screenshots, Responsive UI with Honest Caveat, /health endpoint & debug=False report) |
 | **Task 5** | Database Trail | 8 | Completed | 8/8 Marks Verified (SQLAlchemy ORM Model, Schema DDL, Automatic Persistence on /predict, /history UI Screenshot, Database Records Dump) |
-| **Task 6** | Containerization with Docker & CI | 14 | In progress (6.1 Done) | 6.1 Verified (Docker Desktop 4.98.0 Engine 29.9.2, 10 CLI lifecycle actions, volume mount, port map, terminal screenshot, 5 student definitions) |
+| **Task 6** | Containerization with Docker & CI | 14 | In progress (6.1 & 6.2 Done) | 6.1 & 6.2 Verified (Docker Warm-Up Lab, Production Dockerfile, Layer Caching, Non-Root appuser, Docker Healthcheck, CPU-only TF Justification) |
 | **Task 7** | Cloud API Deployment | 15 | Not started | Cloud-hosted API, /health & /predict, Postman tests, Live URL |
 | **Task 8** | Integrating Flask & Cloud API | 15 | Not started | Localhost Flask $\to$ Cloud API, DB logging, End-to-end evidence |
 | **Report** | PDF Report Compilation | — | Not started | `<ROLL_NUMBER>_VisionGuard.pdf` with all required evidence |
@@ -168,10 +168,11 @@
   - Completed on: 2026-11-07
   - Deliverables: `src/docker_warmup.py`, `evidence/task6/docker_warmup_log.txt`, `evidence/task6/docker_warmup_terminal.png`, `evidence/task6/docker_warmup_report.md`
   - Evidence collected: 10 lifecycle actions verified on Docker Desktop 4.98.0 (Engine 29.9.2): pulled `nginx:alpine`, detached run with port mapping (`-p 8085:80`) and host volume mount (`-v`), curl HTTP 200 OK proof, container logs, `docker exec` inspecting volume note and processes, `docker ps -a`, `docker images`, clean stop, removal, and rmi; terminal screenshot captured; 5 core student definitions authored in own words (Image, Container, Layer, Volume, Port Mapping)
-- [ ] **6.2 Web App Dockerfile (3 marks)**
-  - Status: Not started
-  - Dependencies: 4.4, 5.1
-  - Evidence needed: Dockerfile text, explanation of layer caching, non-root user verification
+- [x] **6.2 Web App Dockerfile (3 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `Dockerfile`, `.dockerignore`, `requirements-docker.txt`, `src/test_dockerfile.py`, `evidence/task6/dockerfile_user_check.txt`, `evidence/task6/dockerfile_report.md`
+  - Evidence collected: Minimal `python:3.10-slim` base image; layer caching optimization (dependencies copied & installed before source code); non-root user `appuser:appgroup` verified via `whoami` and `id`; native Docker `HEALTHCHECK` targeting `/health` (Status: healthy, 200 OK); `.dockerignore` excluding `.env`, `.git`, caches and training data; technical justification for `tensorflow-cpu` choice saving >1.2GB over GPU TensorFlow
 - [ ] **6.3 Compose Stack (4 marks)**
   - Status: Not started
   - Dependencies: 6.2, PostgreSQL

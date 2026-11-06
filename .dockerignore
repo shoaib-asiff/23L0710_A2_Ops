@@ -1,0 +1,44 @@
+# Secrets & Sensitive Credentials (Mandatory exclusion)
+.env
+*.env
+*.key
+*.pem
+*.token
+
+# Version Control & IDEs
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+# Python virtual environment & Caches
+.venv
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Heavy Training Data & Version Control (Preserved outside container)
+archive/
+archive.dvc
+.dvc/
+data/
+
+# Local MLflow runs and databases
+mlruns/
+mlflow.db*
+visionguard.db*
+
+# Temporary demo scripts & PDF source
+toy_dvc_demo/
+Assignment 2.pdf
+evidence/task1/
+evidence/task2/
+evidence/task3/
+

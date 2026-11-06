@@ -1,0 +1,26 @@
+================================================================================
+          TASK 6.2: PRODUCTION DOCKERFILE AUDIT & NON-ROOT VERIFICATION
+================================================================================
+Student Roll Number : 23L0710
+Image Name          : visionguard-web:latest
+Image Size          : visionguard-web:latest | Size: 1.94GB | ID: ee85d82f7bb8
+Base Image          : python:3.10-slim
+--------------------------------------------------------------------------------
+NON-ROOT USER VERIFICATION (INSIDE CONTAINER):
+$ docker exec visionguard_web_test whoami
+Output: appuser
+
+$ docker exec visionguard_web_test id
+Output: uid=999(appuser) gid=999(appgroup) groups=999(appgroup)
+
+SECURITY ASSESSMENT:
+Status: PASS (Non-root user 'appuser' enforced via 'USER appuser' directive)
+Root execution blocked: True
+--------------------------------------------------------------------------------
+CONTAINER HEALTH CHECK VERIFICATION:
+$ curl -s http://127.0.0.1:5002/health
+Response:
+{"decision_threshold":0.23,"inference_mode":"local","max_upload_size_mb":5,"model_loaded":true,"model_name":"VisionGuard_MobileNetV2","model_path":"models/champion.keras","project_name":"23L0710_A2_Ops","status":"healthy","student_roll_number":"23L0710","timestamp":"2026-11-06T23:05:56.528965"}
+
+HEALTHCHECK STATUS: PASS (HTTP 200 OK, 'healthy')
+================================================================================
