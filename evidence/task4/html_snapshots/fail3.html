@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error 400 — VisionGuard</title>
+  <link rel="stylesheet" href="file:///Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/webapp/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      <span>🛡️ VisionGuard</span>
+      <span class="brand-badge">23L0710_A2_Ops</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="">Classifier</a></li>
+      <li><a href="/history" class="">Audit Trail</a></li>
+      <li>
+        <a href="/health" target="_blank" class="health-pill" title="System Health Status">
+          <span class="health-dot"></span>
+          <span>API Health</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Flash Messages -->
+    
+      
+    
+
+    
+<div class="card error-card">
+  <div class="error-icon">
+    
+      ⚠️
+    
+  </div>
+  <div class="error-code">HTTP 400 ERROR</div>
+  <h1 class="error-title">Corrupt or Undecodable Image</h1>
+  <p class="error-message">The file has a valid image extension, but its binary data is corrupted, truncated, or not a genuine decodable image.</p>
+
+  <div style="display: flex; justify-content: center; gap: 1rem;">
+    <a href="/" class="btn btn-primary" style="margin-top: 0; width: auto;">Return to Classifier</a>
+    <a href="/history" class="btn btn-secondary" style="margin-top: 0;">View Audit Trail</a>
+  </div>
+</div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>
+      <strong>VisionGuard MLOps Platform</strong> &bull; Assignment 2 &bull; Student Roll: <strong>23L0710</strong>  
+      <br>
+      Trained on MobileNetV2 Fine-Tuned Backbone &bull; Tracked via MLflow & DagsHub
+    </p>
+  </footer>
+
+</body>
+</html>

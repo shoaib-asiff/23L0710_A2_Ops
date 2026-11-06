@@ -1,0 +1,62 @@
+================================================================================
+   TASK 4: FLASK WEB APPLICATION — ROUTES, VALIDATION & FRONTEND TEST SUITE   
+================================================================================
+[*] Student Roll Number : 23L0710
+[*] Standard Naming     : 23L0710_A2_Ops
+[*] Model Path          : models/champion.keras
+[*] Configured Threshold: 0.23
+--------------------------------------------------------------------------------
+[*] Testing Route 1: GET / (Home Page)
+    - Status Code   : 200 OK
+    - Elements      : Navigation Bar, Drag-and-Drop Zone, File Input Verified
+    - Route Status  : [PASS]
+--------------------------------------------------------------------------------
+[*] Testing Route 2: GET /health (Health Check Endpoint - Task 4.4)
+    - Status Code   : 200 OK
+    - Health JSON   : {
+  "decision_threshold": 0.23,
+  "inference_mode": "local",
+  "max_upload_size_mb": 5,
+  "model_loaded": true,
+  "model_name": "VisionGuard_MobileNetV2",
+  "model_path": "models/champion.keras",
+  "project_name": "23L0710_A2_Ops",
+  "status": "healthy",
+  "student_roll_number": "23L0710",
+  "timestamp": "2026-11-07T03:20:11.505597"
+}
+    - Route Status  : [PASS]
+[+] Saved health JSON -> evidence/task4/health_check.json
+--------------------------------------------------------------------------------
+[*] Testing Failure Case 1: Wrong File Extension (Reject .txt / .py / .exe)
+    - Input File    : 'malicious_script.txt' (text/plain)
+    - Status Code   : 400 Bad Request
+    - Error Rendered: 'Unsupported File Format - only PNG, JPG, JPEG, WEBP, BMP accepted'
+    - Test Status   : [PASS]
+--------------------------------------------------------------------------------
+[*] Testing Failure Case 2: File Size Limit Exceeded (Reject > 5MB)
+    - Input Payload : 6.00 MB in-memory stream (Limit: 5.0 MB)
+    - Status Code   : 413 Payload Too Large
+    - Error Rendered: 'File Size Limit Exceeded - maximum allowed size limit is 5.0 MB'
+    - Test Status   : [PASS]
+--------------------------------------------------------------------------------
+[*] Testing Failure Case 3: Undecodable / Corrupt Image File (Reject Spoofed/Corrupted Files)
+    - Input File    : 'broken_image.jpg' with corrupt bytes
+    - Status Code   : 400 Bad Request
+    - Error Rendered: 'Corrupt or Undecodable Image - binary data is corrupted or truncated'
+    - Test Status   : [PASS]
+--------------------------------------------------------------------------------
+[*] Testing Valid Predictions: In-Memory Classification & Result Rendering
+    - Real Image Upload: 'authentic_photo.jpg' (16,656 bytes)
+    - Status Code      : 200 OK
+    - Verdict Rendered : 'REAL PHOTOGRAPHY' with Honest Caveat Banner & Base64 preview
+    - AI Image Upload  : 'synthetic_art.jpg' (120,469 bytes)
+    - Status Code      : 200 OK
+    - Verdict Rendered : 'AI-GENERATED' with Confidence Bar
+    - Test Status      : [PASS]
+--------------------------------------------------------------------------------
+[*] Testing Route 3: GET /history (Audit Trail View)
+    - Status Code   : 200 OK
+    - Entries Found : Both recent predictions logged in audit trail
+    - Route Status  : [PASS]
+================================================================================

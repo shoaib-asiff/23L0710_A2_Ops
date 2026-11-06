@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}VisionGuard — AI vs Real Image Classification{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h1 class="card-title">AI vs. Real Image Classifier</h1>
+    <p class="card-subtitle">
+      Upload an image to inspect whether it was produced by generative AI models or captured by authentic photography.
+    </p>
+  </div>
+
+  <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data" id="upload-form">
+    <div class="dropzone" id="dropzone">
+      <input type="file" name="image" id="file-input" class="file-input" accept=".jpg,.jpeg,.png,.webp,.bmp" required>
+      <div class="dropzone-icon">📁</div>
+      <div class="dropzone-text" id="dropzone-label">Click to browse or drag and drop image here</div>
+      <div class="dropzone-subtext">Safe in-memory classification with zero disk storage</div>
+    </div>
+
+    <div class="file-specs">
+      <div class="spec-item">
+        <span>📸</span>
+        <span>Formats: <strong>PNG, JPG, JPEG, WEBP, BMP</strong></span>
+      </div>
+      <div class="spec-item">
+        <span>⚖️</span>
+        <span>Maximum Size: <strong>5 MB</strong></span>
+      </div>
+      <div class="spec-item">
+        <span>🔒</span>
+        <span>Privacy: <strong>Processed in RAM</strong></span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="submit-btn">
+      <span>Analyze Image</span>
+      <span>&rarr;</span>
+    </button>
+  </form>
+</div>
+
+<script>
+  const fileInput = document.getElementById('file-input');
+  const dropzoneLabel = document.getElementById('dropzone-label');
+  const dropzone = document.getElementById('dropzone');
+
+  fileInput.addEventListener('change', function(e) {
+    if (this.files && this.files[0]) {
+      const file = this.files[0];
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      dropzoneLabel.innerHTML = `<strong>Selected:</strong> ${file.name} (${sizeMB} MB)`;
+      dropzone.style.borderColor = '#2563eb';
+      dropzone.style.backgroundColor = '#eff6ff';
+    }
+  });
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+</script>
+{% endblock %}
+

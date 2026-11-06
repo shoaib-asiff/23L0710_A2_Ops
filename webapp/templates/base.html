@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VisionGuard — AI vs Real Image Classifier{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="nav-brand">
+      <span>🛡️ VisionGuard</span>
+      <span class="brand-badge">23L0710_A2_Ops</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Classifier</a></li>
+      <li><a href="{{ url_for('history') }}" class="{% if request.endpoint == 'history' %}active{% endif %}">Audit Trail</a></li>
+      <li>
+        <a href="{{ url_for('health') }}" target="_blank" class="health-pill" title="System Health Status">
+          <span class="health-dot"></span>
+          <span>API Health</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category if category != 'error' else 'danger' }}">
+            <span>⚠️ {{ message }}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>
+      <strong>VisionGuard MLOps Platform</strong> &bull; Assignment 2 &bull; Student Roll: <strong>23L0710</strong>  
+      <br>
+      Trained on MobileNetV2 Fine-Tuned Backbone &bull; Tracked via MLflow & DagsHub
+    </p>
+  </footer>
+
+</body>
+</html>
+

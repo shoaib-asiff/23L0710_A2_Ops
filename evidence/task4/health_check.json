@@ -1,0 +1,12 @@
+{
+  "decision_threshold": 0.23,
+  "inference_mode": "local",
+  "max_upload_size_mb": 5,
+  "model_loaded": true,
+  "model_name": "VisionGuard_MobileNetV2",
+  "model_path": "models/champion.keras",
+  "project_name": "23L0710_A2_Ops",
+  "status": "healthy",
+  "student_roll_number": "23L0710",
+  "timestamp": "2026-11-07T03:20:11.505597"
+}

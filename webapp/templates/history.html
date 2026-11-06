@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Audit Trail — VisionGuard{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h1 class="card-title">Prediction Audit Trail</h1>
+    <p class="card-subtitle">Complete historical log of image classifications recorded by the system</p>
+  </div>
+
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Timestamp</th>
+          <th>Filename</th>
+          <th>Verdict</th>
+          <th>Confidence</th>
+          <th>Raw Score</th>
+          <th>Latency</th>
+          <th>Model</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if history_records and history_records|length > 0 %}
+          {% for rec in history_records %}
+            <tr>
+              <td>#{{ rec.id }}</td>
+              <td><small>{{ rec.timestamp }}</small></td>
+              <td><code>{{ rec.filename }}</code></td>
+              <td>
+                <span class="badge-sm {% if rec.prediction == 'AI-Generated' %}ai{% else %}real{% endif %}">
+                  {{ rec.prediction }}
+                </span>
+              </td>
+              <td><strong>{{ rec.confidence }}%</strong></td>
+              <td><code>{{ rec.raw_score }}</code></td>
+              <td>{{ rec.inference_time_ms }} ms</td>
+              <td><small>{{ rec.model_name }}</small></td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="8" style="text-align: center; color: #94a3b8; padding: 2.5rem 1rem;">
+              No classifications recorded yet. <a href="{{ url_for('index') }}" style="color: #2563eb;">Analyze an image now</a>.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1.5rem; text-align: right;">
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Classifier</a>
+  </div>
+</div>
+{% endblock %}
+

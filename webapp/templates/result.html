@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result — VisionGuard{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h1 class="card-title">Classification Verdict</h1>
+    <p class="card-subtitle">Detailed model inference breakdown and confidence report</p>
+  </div>
+
+  <div class="result-grid">
+    <!-- Image Preview (In-Memory Base64 Data URI) -->
+    <div class="image-preview-container">
+      {% if image_data_uri %}
+        <img src="{{ image_data_uri }}" alt="Uploaded Image Preview">
+      {% else %}
+        <div style="color: #94a3b8; padding: 2rem;">No Preview Available</div>
+      {% endif %}
+    </div>
+
+    <!-- Verdict Details -->
+    <div class="verdict-box">
+      <div>
+        <span style="font-size: 0.85rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Classification Result</span>
+        <div class="verdict-badge {% if result.prediction == 'AI-Generated' %}ai{% else %}real{% endif %}">
+          {% if result.prediction == 'AI-Generated' %}
+            🤖 AI-GENERATED
+          {% else %}
+            🌿 REAL PHOTOGRAPHY
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Confidence Bar -->
+      <div class="confidence-bar-container">
+        <div class="confidence-label">
+          <span>Model Confidence</span>
+          <span><strong>{{ result.confidence }}%</strong></span>
+        </div>
+        <div class="confidence-bar">
+          <div class="confidence-fill {% if result.prediction == 'AI-Generated' %}ai{% else %}real{% endif %}" style="width: {{ result.confidence }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Metadata Breakdown -->
+      <table class="meta-table">
+        <tr>
+          <td>Filename</td>
+          <td><code>{{ filename }}</code></td>
+        </tr>
+        <tr>
+          <td>Raw AI Probability ($\hat{p}$)</td>
+          <td><code>{{ result.raw_score }}</code></td>
+        </tr>
+        <tr>
+          <td>Operating Threshold ($\tau^*$)</td>
+          <td><code>{{ result.threshold }}</code></td>
+        </tr>
+        <tr>
+          <td>Inference Latency</td>
+          <td><strong>{{ result.inference_time_ms }} ms</strong></td>
+        </tr>
+        <tr>
+          <td>Serving Engine / Mode</td>
+          <td><span class="badge-sm {% if result.prediction == 'AI-Generated' %}ai{% else %}real{% endif %}">{{ result.inference_mode|upper }}</span></td>
+        </tr>
+        <tr>
+          <td>Model Version</td>
+          <td><code>{{ result.model_name }}</code></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Mandatory Honest Caveat Banner -->
+  <div class="caveat-banner">
+    <div class="caveat-icon">⚠️</div>
+    <div class="caveat-content">
+      <h4>Honest Engineering Caveat</h4>
+      <p>
+        This prediction is produced by a statistical neural network (MobileNetV2) calibrated to a decision threshold of $\tau^* = 0.23$. Deep learning classifiers operate on subtle texture, frequency, and spectral patterns observed during training. High confidence indicates strong statistical resemblance, not absolute forensic proof. Results should serve as assistive evidence in conjunction with contextual human verification.
+      </p>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+    <a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-top: 0;">Upload Another Image</a>
+    <a href="{{ url_for('history') }}" class="btn btn-secondary" style="margin-top: 0;">View Audit Trail</a>
+  </div>
+</div>
+{% endblock %}
+

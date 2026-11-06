@@ -2,7 +2,7 @@
 
 **Project:** VisionGuard — AI vs Real Image Classification and Deployment  
 **Standard Naming:** `23L0710_A2_Ops`  
-**Current Status:** Task 4.1 Complete (36 / 100 Marks Verified)  
+**Current Status:** Task 4 Complete (45 / 100 Marks Verified)  
 **Last Updated:** 2026-11-07  
 
 ---
@@ -15,7 +15,7 @@
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Completed (All 2.1-2.7) | 14/14 Marks Verified (Input Pipeline, Baseline CNN, Transfer Learning, Training Discipline, Evaluation & Threshold, Error Analysis, Keras Tuner) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Completed (All 3.1-3.6) | 12/12 Marks Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts, Model Registry @champion & Loader) |
-| **Task 4** | Flask Web Application | 12 | In progress (4.1 Done) | 4.1 Verified (Singleton Inference Engine, Preprocessing Parity, 2-image console tests, 35.6x speedup benchmark) |
+| **Task 4** | Flask Web Application | 12 | Completed (All 4.1-4.4) | 12/12 Marks Verified (Singleton Inference Engine, Preprocessing Parity, Defensive Routes & 3 Failure Screenshots, Responsive UI with Honest Caveat, /health endpoint & debug=False report) |
 | **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
 | **Task 6** | Containerization with Docker & CI | 14 | Not started | Docker warm-up, Web Dockerfile, Compose stack, CI workflow |
 | **Task 7** | Cloud API Deployment | 15 | Not started | Cloud-hosted API, /health & /predict, Postman tests, Live URL |
@@ -135,18 +135,21 @@
   - Completed on: 2026-11-07
   - Deliverables: `webapp/inference.py`, `src/test_inference_module.py`, `evidence/task4/task4_1_console_output.txt`, `evidence/task4/task4_1_inference_report.md`
   - Evidence collected: Decoupled singleton inference engine loading `models/champion.keras` once at startup; full preprocessing parity (RGB conversion, aspect-ratio preserving padding to 224x224, float32 scaling, zero disk writes); console evaluation on two known ground-truth images (AI-Generated: 50.00% PASS, Real: 83.97% PASS); 35.6x throughput speedup benchmark (267.53ms in-memory vs 9529.78ms per-request reload); complete write-up on per-request loading unacceptability and training-serving preprocessing parity
-- [ ] **4.2 Routes & Validation (3 marks)**
-  - Status: Not started
-  - Dependencies: 4.1
-  - Evidence needed: Screenshots of the three failure cases (wrong extension, file size, undecodable image)
-- [ ] **4.3 HTML and CSS Frontend (2.5 marks)**
-  - Status: Not started
-  - Dependencies: 4.2
-  - Evidence needed: Screenshots of home upload form, prediction result card, honest caveat banner
-- [ ] **4.4 Configuration & Production Server (1 mark)**
-  - Status: Not started
-  - Dependencies: 4.2
-  - Evidence needed: Health-check response screenshot, explanation of debug=False in production
+- [x] **4.2 Routes & Validation (3 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `webapp/app.py`, `src/test_webapp_routes.py`, `evidence/task4/failure_case1_wrong_extension.png`, `evidence/task4/failure_case2_size_limit.png`, `evidence/task4/failure_case3_corrupt_image.png`, `evidence/task4/task4_2_routes_validation_report.md`
+  - Evidence collected: Defensive routes implemented (`/`, `/predict`, `/history`, `/health`); filename sanitization via `secure_filename`; zero disk writes (in-memory `io.BytesIO` + base64 Data URI); three mandatory failure cases validated and screenshotted via headless Chrome (Wrong Extension $\to$ 400, Size Limit $>5$MB $\to$ 413, Undecodable/Corrupt Bytes $\to$ 400)
+- [x] **4.3 HTML and CSS Frontend (2.5 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `webapp/templates/base.html`, `webapp/templates/index.html`, `webapp/templates/result.html`, `webapp/templates/history.html`, `webapp/templates/error.html`, `webapp/static/css/style.css`, `evidence/task4/frontend_home_upload.png`, `evidence/task4/frontend_prediction_result.png`, `evidence/task4/frontend_audit_history.png`, `evidence/task4/task4_3_frontend_report.md`
+  - Evidence collected: Responsive card-based UI with drag-and-drop file upload, live feedback, classification verdict badges, animated confidence bar, detailed metadata table, and prominently placed mandatory Honest Engineering Caveat Banner
+- [x] **4.4 Configuration & Production Server (1 mark)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `evidence/task4/health_check.json`, `evidence/task4/health_check_response.png`, `evidence/task4/task4_4_production_config_report.md`
+  - Evidence collected: Environment-driven settings (`MODEL_PATH`, `DECISION_THRESHOLD`, `INFERENCE_MODE`, `MAX_CONTENT_LENGTH`); dedicated `/health` route returning JSON diagnostics; production execution with `debug=False` and comprehensive write-up on arbitrary code execution and DoS risks of debug mode in production
 
 ---
 
