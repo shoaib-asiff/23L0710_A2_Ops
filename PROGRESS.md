@@ -12,7 +12,7 @@
 | Task | Description | Marks | Status | Deliverables / Evidence |
 | :--- | :--- | :---: | :---: | :--- |
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
-| **Task 2** | Model Development with TensorFlow/Keras | 14 | In progress (2.1 to 2.5 Done) | 2.1 to 2.5 Verified (Test Evaluation Table, ROC Curves, Threshold tau*) |
+| **Task 2** | Model Development with TensorFlow/Keras | 14 | In progress (2.1 to 2.6 Done) | 2.1 to 2.6 Verified (Error Analysis, Test Evaluation, ROC Curves, Threshold tau*) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Not started | Grad-CAM heatmaps for 4 correct & 4 wrong predictions |
 | **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | Not started | Local MLflow toy, DagsHub setup, 6 VisionGuard runs, Model Registry |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
@@ -77,10 +77,11 @@
   - Completed on: 2026-11-06
   - Deliverables: `src/evaluate.py`, `models/baseline_cnn.keras`, `evidence/task2/evaluation_metrics_table.md`, `evidence/task2/evaluation_report.md`, `evidence/task2/roc_curves_comparison.png`, `evidence/task2/confusion_matrices.png`, `evidence/task2/threshold_tuning_val.png`
   - Evidence collected: Single test set evaluation (both models), validation threshold sweep (tau*=0.23), ROC curves, confusion matrices, written FP vs FN risk analysis
-- [ ] **2.6 Error Analysis (1 mark)**
-  - Status: Not started
-  - Dependencies: 2.5
-  - Evidence needed: Grid of 10 misclassified test images with failure hypotheses
+- [x] **2.6 Error Analysis (1 mark)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/error_analysis.py`, `evidence/task2/misclassified_grid.png`, `evidence/task2/error_analysis_report.md`
+  - Evidence collected: Analysis of 39 test set misclassifications (13 FP, 26 FN), 2x5 visual grid of 10 sampled failure cases, individual failure hypotheses, and 4 systemic error themes with mitigation strategies
 - [ ] **2.7 Keras Tuner Tool Lab (2 marks)**
   - Status: Not started
   - Dependencies: 2.3
