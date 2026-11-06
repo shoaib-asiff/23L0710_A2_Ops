@@ -36,6 +36,7 @@ mlflow.db-journal
 checkpoints/
 *.h5
 *.keras
+!models/champion.keras
 *.weights.h5
 
 # DVC cache (managed by DVC)

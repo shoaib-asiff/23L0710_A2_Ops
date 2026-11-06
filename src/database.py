@@ -46,7 +46,13 @@ connect_args = {}
 if DATABASE_URL.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
 
-engine = create_engine(DATABASE_URL, connect_args=connect_args, pool_pre_ping=True)
+try:
+    engine = create_engine(DATABASE_URL, connect_args=connect_args, pool_pre_ping=True)
+except Exception as e:
+    logger.warning(f"Failed to create engine with {DATABASE_URL}: {e}. Falling back to sqlite:///visionguard.db")
+    DATABASE_URL = "sqlite:///visionguard.db"
+    connect_args = {"check_same_thread": False}
+    engine = create_engine(DATABASE_URL, connect_args=connect_args, pool_pre_ping=True)
 SessionFactory = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 db_session = scoped_session(SessionFactory)
 
