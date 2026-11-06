@@ -14,7 +14,7 @@
 | **Task 1** | Data Understanding and Versioning | 7 | Completed (All 1.1-1.4) | 7/7 Marks Verified (Audit, EDA, DVC Toy & Applied) |
 | **Task 2** | Model Development with TensorFlow/Keras | 14 | Completed (All 2.1-2.7) | 14/14 Marks Verified (Input Pipeline, Baseline CNN, Transfer Learning, Training Discipline, Evaluation & Threshold, Error Analysis, Keras Tuner) |
 | **Task 2 Bonus** | Explainable AI (Grad-CAM) | +1 | Completed | +1 Bonus Verified (Heatmap overlays for 4 correct & 4 wrong predictions with commentary) |
-| **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | In progress (3.1 to 3.3 Done) | 3.1-3.3 Verified (Local MLflow SQLite, Remote DagsHub Toy Run, Manual Callback vs Autologging Comparison) |
+| **Task 3** | Experiment Tracking with MLflow & DagsHub | 12 | In progress (3.1 to 3.5 Done) | 3.1-3.5 Verified (Local SQLite & Remote DagsHub MLflow, Manual vs Autolog, 6 Comparison Runs, Champion Artifacts) |
 | **Task 4** | Flask Web Application | 12 | Not started | Inference module, Input validation, HTML/CSS UI, /health route |
 | **Task 5** | Database Trail | 8 | Not started | Database model, /predict logging hook, /history UI table |
 | **Task 6** | Containerization with Docker & CI | 14 | Not started | Docker warm-up, Web Dockerfile, Compose stack, CI workflow |
@@ -111,14 +111,16 @@
   - Completed on: 2026-11-07
   - Deliverables: `src/instrumentation_experiment.py`, `evidence/task3/manual_run_curves.png`, `evidence/task3/autolog_run_curves.png`, `evidence/task3/instrumentation_comparison_report.md`
   - Evidence collected: Two live runs on DagsHub MLflow server (`visionguard_manual_callback_run` vs `visionguard_autolog_run`), logged hyperparameters, dynamic per-epoch metrics, final test metrics (Accuracy, Precision, Recall, F1, ROC-AUC), provenance tags (Git commit, DVC data MD5, seed 42), and comprehensive technical write-up analyzing what each approach captures vs misses
-- [ ] **3.4 Artifact Logging (1.5 marks)**
-  - Status: Not started
-  - Dependencies: 2.5, 3.3
-  - Evidence needed: Artifacts tab screenshot (confusion matrix, ROC, split lists, packages, model)
-- [ ] **3.5 Experiment Comparison (2 marks)**
-  - Status: Not started
-  - Dependencies: 3.3
-  - Evidence needed: Comparison screenshot of at least 6 runs, written justification of best model
+- [x] **3.4 Artifact Logging (1.5 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `evidence/task3/run_artifacts/confusion_matrix.png`, `evidence/task3/run_artifacts/roc_curve.png`, `evidence/task3/run_artifacts/splits/`, `evidence/task3/run_artifacts/requirements.txt`, `evidence/task3/artifacts_logging_report.md`
+  - Evidence collected: All 5 required artifacts attached to Champion run on DagsHub MLflow remote server (`confusion_matrix.png`, `roc_curve.png`, `splits/`, `requirements.txt`, `model/`) and saved locally to `models/champion.keras`
+- [x] **3.5 Experiment Comparison (2 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-07
+  - Deliverables: `src/experiment_comparison.py`, `evidence/task3/experiment_comparison_table.md`, `evidence/task3/experiment_comparison_chart.png`, `evidence/task3/experiment_comparison_report.md`
+  - Evidence collected: 6 distinct experimental runs executed and logged on DagsHub MLflow varying learning rate, backbone unfreezing depth, augmentation, dropout, and architecture; comparative matrix table and comparative bar chart; written justification selecting `exp3_champion_unfreeze20_lr5e5` based on ROC-AUC, F1, and stability
 - [ ] **3.6 Model Registry & Champion Loading (1.5 marks)**
   - Status: Not started
   - Dependencies: 3.5
