@@ -1,0 +1,49 @@
+Model: "VisionGuard_Baseline_CNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ pixel_rescaling (Rescaling  (None, 224, 224, 3)       0         
+ )                                                               
+                                                                 
+ conv1 (Conv2D)              (None, 224, 224, 32)      896       
+                                                                 
+ bn1 (BatchNormalization)    (None, 224, 224, 32)      128       
+                                                                 
+ pool1 (MaxPooling2D)        (None, 112, 112, 32)      0         
+                                                                 
+ conv2 (Conv2D)              (None, 112, 112, 64)      18496     
+                                                                 
+ bn2 (BatchNormalization)    (None, 112, 112, 64)      256       
+                                                                 
+ pool2 (MaxPooling2D)        (None, 56, 56, 64)        0         
+                                                                 
+ conv3 (Conv2D)              (None, 56, 56, 128)       73856     
+                                                                 
+ bn3 (BatchNormalization)    (None, 56, 56, 128)       512       
+                                                                 
+ pool3 (MaxPooling2D)        (None, 28, 28, 128)       0         
+                                                                 
+ conv4 (Conv2D)              (None, 28, 28, 128)       147584    
+                                                                 
+ bn4 (BatchNormalization)    (None, 28, 28, 128)       512       
+                                                                 
+ pool4 (MaxPooling2D)        (None, 14, 14, 128)       0         
+                                                                 
+ global_avg_pool (GlobalAve  (None, 128)               0         
+ ragePooling2D)                                                  
+                                                                 
+ dense_features (Dense)      (None, 128)               16512     
+                                                                 
+ bn_dense (BatchNormalizati  (None, 128)               512       
+ on)                                                             
+                                                                 
+ dropout_regularization (Dr  (None, 128)               0         
+ opout)                                                          
+                                                                 
+ output_probability (Dense)  (None, 1)                 129       
+                                                                 
+=================================================================
+Total params: 259393 (1013.25 KB)
+Trainable params: 258433 (1009.50 KB)
+Non-trainable params: 960 (3.75 KB)
+_________________________________________________________________
