@@ -1,0 +1,170 @@
+{
+  "info": {
+    "_postman_id": "visionguard-api-23l0710-collection",
+    "name": "VisionGuard Cloud API (23L0710)",
+    "description": "Production API test suite for VisionGuard AI vs Real Media Classifier deployed on Render Cloud PaaS.\nStudent Roll Number: 23L0710\nProject: 23L0710_A2_Ops",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "https://visionguard-api-23l0710.onrender.com",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. GET /health - Service Health Probe",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{BASE_URL}}/health",
+          "host": ["{{BASE_URL}}"],
+          "path": ["health"]
+        },
+        "description": "Returns container health status, active model version, decision threshold, and student roll number."
+      },
+      "response": []
+    },
+    {
+      "name": "2. POST /predict - Real Photography",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "archive/RealArt/RealArt/images40.jpg",
+              "description": "Ground truth authentic human artwork / photo"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/predict",
+          "host": ["{{BASE_URL}}"],
+          "path": ["predict"]
+        },
+        "description": "Submits an authentic real image for binary classification."
+      },
+      "response": []
+    },
+    {
+      "name": "3. POST /predict - AI-Generated Image",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "archive/AiArtData/AiArtData/portrait-01.jpg",
+              "description": "Ground truth AI synthetic artwork"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/predict",
+          "host": ["{{BASE_URL}}"],
+          "path": ["predict"]
+        },
+        "description": "Submits a synthetic AI image for binary classification."
+      },
+      "response": []
+    },
+    {
+      "name": "4. POST /predict - Validation Failure (Wrong Extension)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "requirements.txt",
+              "description": "Non-image text file"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/predict",
+          "host": ["{{BASE_URL}}"],
+          "path": ["predict"]
+        },
+        "description": "Validates that the API rejects unsupported file extensions with HTTP 400."
+      },
+      "response": []
+    },
+    {
+      "name": "5. POST /predict - Validation Failure (Corrupt Image)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "corrupt_test.jpg",
+              "description": "Truncated / invalid binary data with .jpg extension"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/predict",
+          "host": ["{{BASE_URL}}"],
+          "path": ["predict"]
+        },
+        "description": "Validates that the API rejects corrupt or spoofed image binaries with HTTP 400."
+      },
+      "response": []
+    },
+    {
+      "name": "6. GET /history - Classification Audit Trail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/history",
+          "host": ["{{BASE_URL}}"],
+          "path": ["history"]
+        },
+        "description": "Fetches the persistent classification audit log."
+      },
+      "response": []
+    }
+  ]
+}
