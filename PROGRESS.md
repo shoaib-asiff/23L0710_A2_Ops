@@ -206,10 +206,11 @@
 ---
 
 ### Task 8: Flask & Hosted API Integration (15 marks)
-- [ ] **8.1 End-to-End System Demonstration (15 marks)**
-  - Status: Not started
-  - Dependencies: 7.1, 4.3, 5.1
-  - Evidence needed: Localhost Flask calling Cloud API, returned predictions, database history updated, screenshots
+- [x] **8.1 End-to-End System Demonstration (15 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-08
+  - Deliverables: `src/test_task8_integration.py`, `evidence/task8/task8_integration_log.txt`, `evidence/task8/integrated_flow_real.png`, `evidence/task8/integrated_flow_ai.png`, `evidence/task8/integrated_history_log.png`, `evidence/task8/task8_integration_report.md`
+  - Evidence collected: Local Flask web application operating in remote mode (`INFERENCE_MODE=remote`, `REMOTE_API_URL=https://visionguard-api-23l0710.onrender.com/predict`); image uploads validated strictly in memory (0 disk leak); forward-pass execution to Render Cloud API returning verdicts (Real: 83.97%, AI: 50.0%); persistent SQLAlchemy audit logs recorded with explicit `remote` mode; `/history` view verified and screenshotted; comparative latency and memory trade-off analysis authored (local vs remote)
 
 ---
 

@@ -45,7 +45,7 @@ logger = logging.getLogger("visionguard.inference")
 MODEL_PATH = os.environ.get("MODEL_PATH", "models/champion.keras")
 DEFAULT_THRESHOLD = float(os.environ.get("DECISION_THRESHOLD", "0.23"))
 INFERENCE_MODE = os.environ.get("INFERENCE_MODE", "local").lower()
-REMOTE_API_URL = os.environ.get("REMOTE_API_URL", "http://localhost:8000/predict")
+REMOTE_API_URL = os.environ.get("REMOTE_API_URL", "https://visionguard-api-23l0710.onrender.com/predict")
 REMOTE_API_KEY = os.environ.get("API_KEY", "")
 
 IMG_HEIGHT = 224
@@ -67,16 +67,14 @@ class InferenceEngine:
         return cls._instance
 
     def __init__(self, model_path: str = MODEL_PATH, threshold: float = DEFAULT_THRESHOLD):
-        # Prevent re-initialization if already loaded
-        if self._model is not None or INFERENCE_MODE == "remote":
-            self.model_path = model_path
-            self.threshold = threshold
-            return
-
         self.model_path = model_path
         self.threshold = threshold
-        self.mode = INFERENCE_MODE
-        
+        self.mode = os.environ.get("INFERENCE_MODE", INFERENCE_MODE).lower()
+
+        # Prevent re-loading local model if already in RAM or if operating in remote mode
+        if self._model is not None:
+            return
+
         if self.mode == "local":
             self._load_local_model()
         else:
@@ -238,16 +236,23 @@ class InferenceEngine:
         else:
             raise TypeError(f"Unsupported image source type: {type(image_source)}")
 
-        headers = {}
+        headers = {"Accept": "application/json"}
         if REMOTE_API_KEY:
             headers["X-API-Key"] = REMOTE_API_KEY
 
-        files = {"file": (filename, payload_bytes, "image/jpeg")}
+        files = {"image": (filename, payload_bytes, "image/jpeg")}
         params = {"threshold": active_threshold}
 
-        response = requests.post(REMOTE_API_URL, files=files, params=params, headers=headers, timeout=10)
-        response.raise_for_status()
-        res_json = response.json()
+        try:
+            response = requests.post(REMOTE_API_URL, files=files, params=params, headers=headers, timeout=30)
+            response.raise_for_status()
+            res_json = response.json()
+        except requests.exceptions.Timeout:
+            raise RuntimeError(f"Cloud API request timed out after 30s. Remote endpoint '{REMOTE_API_URL}' may be cold-starting.")
+        except requests.exceptions.ConnectionError as e:
+            raise RuntimeError(f"Unable to reach remote Cloud API at '{REMOTE_API_URL}': {e}")
+        except requests.exceptions.HTTPError as e:
+            raise RuntimeError(f"Remote Cloud API returned error {response.status_code}: {response.text}")
 
         elapsed_ms = (time.time() - start_time) * 1000.0
         res_json["inference_mode"] = "remote"

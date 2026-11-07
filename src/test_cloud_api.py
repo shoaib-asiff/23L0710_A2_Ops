@@ -340,3 +340,4 @@ if __name__ == "__main__":
     parser.add_argument("--url", default="http://localhost:5001", help="Target API URL")
     args = parser.parse_args()
     run_tests(args.url)
+
