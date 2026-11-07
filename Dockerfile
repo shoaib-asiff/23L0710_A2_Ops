@@ -58,8 +58,10 @@ EXPOSE 5000
 # 8. CONTAINER HEALTH CHECK:
 # Native Docker health-check polling the internal /health API endpoint every 30s
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:5000/health || exit 1
+    CMD curl -f http://localhost:${PORT:-5000}/health || exit 1
 
 # 9. Startup Command: Production-grade WSGI Server (Gunicorn)
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "120", "webapp.app:app"]
+# Uses 1 worker with 4 threads to minimize memory footprint (<500MB) for cloud free tiers (e.g. Render)
+# while enabling concurrent request execution and dynamic cloud PORT binding.
+CMD gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 1 --threads 4 --timeout 120 webapp.app:app
 

@@ -95,30 +95,50 @@ def create_app(test_config=None) -> Flask:
         return render_template("index.html")
 
     @app.route("/predict", methods=["POST"])
+    @app.route("/api/predict", methods=["POST"])
     def predict():
         """
         Receives image upload, executes validation, performs inference,
-        logs to audit trail, and renders result page.
+        logs to audit trail, and either returns JSON (for API / Postman)
+        or renders HTML result page.
         """
-        # 1. Check if file part is present
-        if "image" not in request.files:
+        wants_json = (
+            request.headers.get("Accept") == "application/json"
+            or request.path.startswith("/api/")
+            or request.args.get("format") == "json"
+        )
+
+        def format_error(code: int, title: str, message: str):
+            if wants_json:
+                return jsonify({
+                    "status": "error",
+                    "error_code": code,
+                    "error_title": title,
+                    "error_message": message
+                }), code
             return render_template(
                 "error.html",
-                error_code=400,
-                error_title="Missing Image Upload",
-                error_message="No image file part was found in the submission. Please select an image to inspect."
-            ), 400
+                error_code=code,
+                error_title=title,
+                error_message=message
+            ), code
 
-        file = request.files["image"]
+        # 1. Check if file part is present (supports both 'image' and 'file')
+        file = request.files.get("image") or request.files.get("file")
+        if not file:
+            return format_error(
+                400,
+                "Missing Image Upload",
+                "No image file part was found in the submission. Send multipart form-data with key 'image' or 'file'."
+            )
 
         # 2. Check if a file was selected
         if file.filename == "" or not file:
-            return render_template(
-                "error.html",
-                error_code=400,
-                error_title="No File Selected",
-                error_message="Please select an image file before clicking Analyze Image."
-            ), 400
+            return format_error(
+                400,
+                "No File Selected",
+                "Please select an image file before clicking Analyze Image."
+            )
 
         # 3. Sanitize filename (Werkzeug security)
         filename = secure_filename(file.filename)
@@ -128,15 +148,11 @@ def create_app(test_config=None) -> Flask:
         # 4. VALIDATION CASE 1: Reject Wrong File Types
         if not allowed_file(filename):
             ext = filename.rsplit(".", 1)[1].lower() if "." in filename else "unknown"
-            return render_template(
-                "error.html",
-                error_code=400,
-                error_title="Unsupported File Format",
-                error_message=(
-                    f"The file format '.{ext}' is not supported. "
-                    f"VisionGuard only accepts image files in PNG, JPG, JPEG, WEBP, or BMP format."
-                )
-            ), 400
+            return format_error(
+                400,
+                "Unsupported File Format",
+                f"The file format '.{ext}' is not supported. VisionGuard only accepts image files in PNG, JPG, JPEG, WEBP, or BMP format."
+            )
 
         # 5. Read stream entirely in-memory (ZERO DISK WRITES)
         try:
@@ -144,51 +160,35 @@ def create_app(test_config=None) -> Flask:
             if not raw_bytes or len(raw_bytes) == 0:
                 raise ValueError("Uploaded file buffer is completely empty.")
         except Exception as e:
-            return render_template(
-                "error.html",
-                error_code=400,
-                error_title="Empty File Stream",
-                error_message="The uploaded file contains zero bytes or could not be read."
-            ), 400
+            return format_error(
+                400,
+                "Empty File Stream",
+                "The uploaded file contains zero bytes or could not be read."
+            )
 
         # 6. VALIDATION CASE 3: Reject Undecodable / Corrupt Images
         try:
             with Image.open(io.BytesIO(raw_bytes)) as pil_img:
                 pil_img.verify()
         except Exception as e:
-            return render_template(
-                "error.html",
-                error_code=400,
-                error_title="Corrupt or Undecodable Image",
-                error_message=(
-                    "The file has a valid image extension, but its binary data is corrupted, "
-                    "truncated, or not a genuine decodable image."
-                )
-            ), 400
+            return format_error(
+                400,
+                "Corrupt or Undecodable Image",
+                "The file has a valid image extension, but its binary data is corrupted, truncated, or not a genuine decodable image."
+            )
 
-        # 7. Convert in-memory bytes to Base64 Data URI for display (Zero disk storage)
-        b64_str = base64.b64encode(raw_bytes).decode("utf-8")
-        # Detect mime type from file extension
-        mime_type = "image/jpeg"
-        if filename.lower().endswith(".png"):
-            mime_type = "image/png"
-        elif filename.lower().endswith(".webp"):
-            mime_type = "image/webp"
-        data_uri = f"data:{mime_type};base64,{b64_str}"
-
-        # 8. Execute Model Inference
+        # 7. Execute Model Inference
         try:
             result = predict_image(io.BytesIO(raw_bytes), threshold=app.config["DECISION_THRESHOLD"])
         except Exception as e:
             app.logger.error(f"Inference error: {e}")
-            return render_template(
-                "error.html",
-                error_code=500,
-                error_title="Inference Pipeline Error",
-                error_message=f"An error occurred while evaluating the image: {str(e)}"
-            ), 500
+            return format_error(
+                500,
+                "Inference Pipeline Error",
+                f"An error occurred while evaluating the image: {str(e)}"
+            )
 
-        # 9. Record to Audit Trail (Task 5 Database Trail)
+        # 8. Record to Audit Trail (Task 5 Database Trail)
         client_ip = request.headers.get("X-Forwarded-For", request.remote_addr) or "127.0.0.1"
         record = {
             "id": len(app.audit_trail) + 1,
@@ -214,7 +214,33 @@ def create_app(test_config=None) -> Flask:
         except Exception as e:
             app.logger.error(f"Database logging error: {e}")
 
-        # 10. Render Result Page
+        # 9. Return JSON for API requests
+        if wants_json:
+            return jsonify({
+                "status": "success",
+                "filename": filename,
+                "prediction": result["prediction"],
+                "confidence": result["confidence"],
+                "raw_score": result["raw_score"],
+                "threshold": result["threshold"],
+                "model_name": result["model_name"],
+                "model_version": "VisionGuard_MobileNetV2_Champion",
+                "inference_mode": result.get("inference_mode", "local"),
+                "inference_time_ms": result["inference_time_ms"],
+                "student_roll_number": "23L0710",
+                "timestamp": datetime.utcnow().isoformat() + "Z"
+            }), 200
+
+        # 10. Convert in-memory bytes to Base64 Data URI for HTML display (Zero disk storage)
+        b64_str = base64.b64encode(raw_bytes).decode("utf-8")
+        mime_type = "image/jpeg"
+        if filename.lower().endswith(".png"):
+            mime_type = "image/png"
+        elif filename.lower().endswith(".webp"):
+            mime_type = "image/webp"
+        data_uri = f"data:{mime_type};base64,{b64_str}"
+
+        # 11. Render Result Page
         return render_template(
             "result.html",
             result=result,
@@ -264,14 +290,24 @@ def create_app(test_config=None) -> Flask:
     @app.errorhandler(RequestEntityTooLarge)
     def handle_payload_too_large(error):
         """VALIDATION CASE 2: File Size Exceeds Limit (>5MB)"""
+        wants_json = (
+            request.headers.get("Accept") == "application/json"
+            or request.path.startswith("/api/")
+            or request.args.get("format") == "json"
+        )
+        msg = f"The uploaded file exceeds the maximum allowed size limit of {MAX_CONTENT_LENGTH_MB}.0 MB. Please compress or select a smaller image."
+        if wants_json:
+            return jsonify({
+                "status": "error",
+                "error_code": 413,
+                "error_title": "File Size Limit Exceeded",
+                "error_message": msg
+            }), 413
         return render_template(
             "error.html",
             error_code=413,
             error_title="File Size Limit Exceeded",
-            error_message=(
-                f"The uploaded file exceeds the maximum allowed size limit of {MAX_CONTENT_LENGTH_MB}.0 MB. "
-                "Please compress or select a smaller image."
-            )
+            error_message=msg
         ), 413
 
     @app.errorhandler(400)

@@ -128,3 +128,4 @@ env:
 | **Production CI** | `.github/workflows/ci_visionguard.yml` | Push & PR to `main` | **SUCCESS** | `evidence/task6/ci_passing.png` |
 | **Unit Test Suite** | `tests/test_unit.py` | 4 unit test classes | **4/4 PASSED** | `evidence/task6/ci_report.md` |
 | **README Status Badge** | `README.md` | Dynamic SVG badge | **ACTIVE** | [Repo README](file:///Users/shoaib/Desktop/University/7th Semester/MLOPS/A2/README.md) |
+

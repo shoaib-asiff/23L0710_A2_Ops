@@ -1,0 +1,25 @@
+# Render Blueprint Specification for VisionGuard Cloud API Deployment
+# Student Roll Number: 23L0710
+# Standard Naming: 23L0710_A2_Ops
+
+services:
+  - type: web
+    name: visionguard-api-23l0710
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: INFERENCE_MODE
+        value: local
+      - key: DECISION_THRESHOLD
+        value: "0.23"
+      - key: MODEL_PATH
+        value: models/champion.keras
+      - key: SECRET_KEY
+        generateValue: true
+
