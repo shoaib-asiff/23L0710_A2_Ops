@@ -2,9 +2,9 @@
 **Student Roll Number:** 23L0710  
 **Project:** 23L0710_A2_Ops - VisionGuard  
 **Cloud Hosting Platform:** Render.com (Container PaaS)  
-**Public Endpoint URL:** [http://localhost:5001](http://localhost:5001)  
+**Public Endpoint URL:** [https://visionguard-api-23l0710.onrender.com](https://visionguard-api-23l0710.onrender.com)  
 **Postman Collection:** `evidence/task7/VisionGuard_Postman_Collection.json`  
-**Execution Timestamp:** 2026-11-07 21:35:15 UTC  
+**Execution Timestamp:** 2026-11-07 21:57:46 UTC  
 
 ---
 
@@ -59,19 +59,19 @@ All tests were executed against the live cloud endpoint from an external network
 
 | Test Case | HTTP Status | Response Latency | Verification Verdict |
 | :--- | :---: | :---: | :---: |
-| **GET /health (Health Probe)** | `200` | `14.2ms` | **PASS** |
-| **POST /predict (Real Art)** | `200` | `182.5ms` | **PASS** |
-| **POST /predict (AI Art)** | `200` | `177.5ms` | **PASS** |
-| **POST /predict (Wrong Extension)** | `400` | `5.8ms` | **PASS** |
-| **POST /predict (Corrupt Image)** | `400` | `31.8ms` | **PASS** |
-| **POST /predict (Exceed 5MB)** | `413` | `12.0ms` | **PASS** |
+| **GET /health (Health Probe)** | `200` | `575.2ms` | **PASS** |
+| **POST /predict (Real Art)** | `200` | `2253.5ms` | **PASS** |
+| **POST /predict (AI Art)** | `200` | `1636.9ms` | **PASS** |
+| **POST /predict (Wrong Extension)** | `400` | `513.5ms` | **PASS** |
+| **POST /predict (Corrupt Image)** | `400` | `572.6ms` | **PASS** |
+| **POST /predict (Exceed 5MB)** | `413` | `4452.3ms` | **PASS** |
 
 ---
 
 ## 4. API Endpoint Specifications
 
 ### 4.1 Diagnostic Health Check (`GET /health`)
-- **URL:** `http://localhost:5001/health`
+- **URL:** `https://visionguard-api-23l0710.onrender.com/health`
 - **Method:** `GET`
 - **Headers:** `Accept: application/json`
 - **Response Payload:**
@@ -91,7 +91,7 @@ All tests were executed against the live cloud endpoint from an external network
 ```
 
 ### 4.2 Binary Image Classification (`POST /predict`)
-- **URL:** `http://localhost:5001/predict`
+- **URL:** `https://visionguard-api-23l0710.onrender.com/predict`
 - **Method:** `POST`
 - **Headers:** `Accept: application/json`
 - **Body:** `multipart/form-data` with key `image` or `file`

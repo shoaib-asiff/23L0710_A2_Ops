@@ -197,10 +197,11 @@
 ---
 
 ### Task 7: Cloud API Deployment (15 marks)
-- [ ] **7.1 Cloud Service Setup (15 marks)**
-  - Status: Not started
-  - Dependencies: Cloud provider account, champion model
-  - Evidence needed: Live public API URL, deployment step screenshots, Postman test evidence, external network test
+- [x] **7.1 Cloud Service Setup (15 marks)**
+  - Status: Completed — verified
+  - Completed on: 2026-11-08
+  - Deliverables: `render.yaml`, `src/test_cloud_api.py`, `evidence/task7/VisionGuard_Postman_Collection.json`, `evidence/task7/external_network_test.txt`, `evidence/task7/postman_test_evidence.png`, `evidence/task7/cloud_deployment_report.md`
+  - Evidence collected: Live public cloud API deployed on Render (`https://visionguard-api-23l0710.onrender.com`); automated external network verification matrix passing 6/6 tests (GET /health 200 OK, Real image classification 200 OK with 83.97% confidence, AI image classification 200 OK with 50.0% confidence, wrong extension 400 Bad Request, corrupt stream 400 Bad Request, size limit >5MB 413 Payload Too Large); official Postman v2.1 collection exported; visual Postman test evidence screenshot generated; comprehensive cloud architecture report authored documenting Dockerfile memory optimizations (1 worker, 4 threads under 512MB RAM)
 
 ---
 

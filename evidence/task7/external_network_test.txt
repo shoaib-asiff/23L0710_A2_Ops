@@ -1,52 +1,52 @@
 ================================================================================
 TASK 7: CLOUD API DEPLOYMENT & EXTERNAL NETWORK VERIFICATION
 Student Roll Number: 23L0710
-Target Public API URL: http://localhost:5001
-Execution Timestamp : 2026-11-07 21:35:14 UTC
+Target Public API URL: https://visionguard-api-23l0710.onrender.com
+Execution Timestamp : 2026-11-07 21:57:36 UTC
 ================================================================================
 
 --- TEST 1: Service Health Probe (GET /health) ---
 HTTP Status : 200
-Latency     : 14.2ms
-Payload     : {"decision_threshold":0.23,"inference_mode":"local","max_upload_size_mb":5,"model_loaded":true,"model_name":"VisionGuard_MobileNetV2","model_path":"models/champion.keras","project_name":"23L0710_A2_Ops","status":"healthy","student_roll_number":"23L0710","timestamp":"2026-11-07T21:35:14.618727"}
+Latency     : 575.2ms
+Payload     : {"decision_threshold":0.23,"inference_mode":"local","max_upload_size_mb":5,"model_loaded":true,"model_name":"VisionGuard_MobileNetV2","model_path":"models/champion.keras","project_name":"23L0710_A2_Ops","status":"healthy","student_roll_number":"23L0710","timestamp":"2026-11-07T21:57:36.679242"}
 
 
 --- TEST 2: Real Photography Classification (POST /predict) ---
 HTTP Status : 200
-Latency     : 182.5ms
-Payload     : {"confidence":83.97,"filename":"authentic_photo.jpg","inference_mode":"local","inference_time_ms":153.5,"model_name":"VisionGuard_MobileNetV2_Champion","model_version":"VisionGuard_MobileNetV2_Champion","prediction":"Real","raw_score":0.160252,"status":"success","student_roll_number":"23L0710","threshold":0.23,"timestamp":"2026-11-07T21:35:14.801590Z"}
+Latency     : 2253.5ms
+Payload     : {"confidence":83.97,"filename":"authentic_photo.jpg","inference_mode":"local","inference_time_ms":1123.0,"model_name":"VisionGuard_MobileNetV2_Champion","model_version":"VisionGuard_MobileNetV2_Champion","prediction":"Real","raw_score":0.160252,"status":"success","student_roll_number":"23L0710","threshold":0.23,"timestamp":"2026-11-07T21:57:38.960746Z"}
 
 
 --- TEST 3: AI Synthetic Art Classification (POST /predict) ---
 HTTP Status : 200
-Latency     : 177.5ms
-Payload     : {"confidence":50.0,"filename":"synthetic_art.jpg","inference_mode":"local","inference_time_ms":161.6,"model_name":"VisionGuard_MobileNetV2_Champion","model_version":"VisionGuard_MobileNetV2_Champion","prediction":"AI-Generated","raw_score":0.433863,"status":"success","student_roll_number":"23L0710","threshold":0.23,"timestamp":"2026-11-07T21:35:14.979255Z"}
+Latency     : 1636.9ms
+Payload     : {"confidence":50.0,"filename":"synthetic_art.jpg","inference_mode":"local","inference_time_ms":920.23,"model_name":"VisionGuard_MobileNetV2_Champion","model_version":"VisionGuard_MobileNetV2_Champion","prediction":"AI-Generated","raw_score":0.433863,"status":"success","student_roll_number":"23L0710","threshold":0.23,"timestamp":"2026-11-07T21:57:40.571222Z"}
 
 
 --- TEST 4: Security Validation - Unsupported File Extension ---
 HTTP Status : 400
-Latency     : 5.8ms
+Latency     : 513.5ms
 Payload     : {"error_code":400,"error_message":"The file format '.txt' is not supported. VisionGuard only accepts image files in PNG, JPG, JPEG, WEBP, or BMP format.","error_title":"Unsupported File Format","status":"error"}
 
 
 --- TEST 5: Integrity Validation - Corrupt Binary Stream ---
 HTTP Status : 400
-Latency     : 31.8ms
+Latency     : 572.6ms
 Payload     : {"error_code":400,"error_message":"The file has a valid image extension, but its binary data is corrupted, truncated, or not a genuine decodable image.","error_title":"Corrupt or Undecodable Image","status":"error"}
 
 
 --- TEST 6: DoS Defense - Payload Size Limit Exceeded (>5MB) ---
 HTTP Status : 413
-Latency     : 12.0ms
+Latency     : 4452.3ms
 Payload     : {"error_code":413,"error_message":"The uploaded file exceeds the maximum allowed size limit of 5.0 MB. Please compress or select a smaller image.","error_title":"File Size Limit Exceeded","status":"error"}
 
 
 ================================================================================
 TASK 7 TEST VERIFICATION MATRIX
 ================================================================================
-GET /health (Health Probe)          | HTTP 200   | Latency: 14.2ms   | Result: PASS
-POST /predict (Real Art)            | HTTP 200   | Latency: 182.5ms  | Result: PASS
-POST /predict (AI Art)              | HTTP 200   | Latency: 177.5ms  | Result: PASS
-POST /predict (Wrong Extension)     | HTTP 400   | Latency: 5.8ms    | Result: PASS
-POST /predict (Corrupt Image)       | HTTP 400   | Latency: 31.8ms   | Result: PASS
-POST /predict (Exceed 5MB)          | HTTP 413   | Latency: 12.0ms   | Result: PASS
+GET /health (Health Probe)          | HTTP 200   | Latency: 575.2ms  | Result: PASS
+POST /predict (Real Art)            | HTTP 200   | Latency: 2253.5ms | Result: PASS
+POST /predict (AI Art)              | HTTP 200   | Latency: 1636.9ms | Result: PASS
+POST /predict (Wrong Extension)     | HTTP 400   | Latency: 513.5ms  | Result: PASS
+POST /predict (Corrupt Image)       | HTTP 400   | Latency: 572.6ms  | Result: PASS
+POST /predict (Exceed 5MB)          | HTTP 413   | Latency: 4452.3ms | Result: PASS
