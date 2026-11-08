@@ -94,20 +94,7 @@ def create_app(test_config=None) -> Flask:
         """Home page with image upload interface."""
         return render_template("index.html")
 
-    @app.route("/predict", methods=["POST"])
-    @app.route("/api/predict", methods=["POST"])
-    def predict():
-        """
-        Receives image upload, executes validation, performs inference,
-        logs to audit trail, and either returns JSON (for API / Postman)
-        or renders HTML result page.
-        """
-        wants_json = (
-            request.headers.get("Accept") == "application/json"
-            or request.path.startswith("/api/")
-            or request.args.get("format") == "json"
-        )
-
+    def _process_prediction(wants_json: bool):
         def format_error(code: int, title: str, message: str):
             if wants_json:
                 return jsonify({
@@ -248,6 +235,20 @@ def create_app(test_config=None) -> Flask:
             image_data_uri=data_uri
         )
 
+    @app.route("/predict", methods=["POST"])
+    def predict():
+        """Web UI endpoint: processes upload and renders HTML result.html."""
+        wants_json = (
+            request.headers.get("Accept") == "application/json"
+            or request.args.get("format") == "json"
+        )
+        return _process_prediction(wants_json=wants_json)
+
+    @app.route("/api/predict", methods=["POST"])
+    def api_predict():
+        """Dedicated API endpoint: always returns JSON response for Task 7 / Postman / external clients."""
+        return _process_prediction(wants_json=True)
+
     @app.route("/history", methods=["GET"])
     def history():
         """Audit trail page showing past classifications."""
@@ -345,9 +346,31 @@ def create_app(test_config=None) -> Flask:
 app = create_app()
 
 if __name__ == "__main__":
-    # Task 4.4: Run in Flask server with debug mode OFF
-    port = int(os.environ.get("PORT", 5000))
+    import socket
+
+    def is_port_bindable(port_num: int, host_ip: str = "0.0.0.0") -> bool:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind((host_ip, port_num))
+                return True
+            except OSError:
+                return False
+
     host = os.environ.get("HOST", "0.0.0.0")
-    print(f"[*] Starting VisionGuard Flask server on http://{host}:{port} with debug=False")
+    requested_port = int(os.environ.get("PORT", 5000))
+    port = requested_port
+
+    if not is_port_bindable(port, host):
+        # Port is occupied (e.g. AirPlay Receiver on port 5000 or Docker on port 5001)
+        for candidate in [5002, 5003, 5050, 8080]:
+            if is_port_bindable(candidate, host):
+                print(
+                    f"[!] Notice: Port {requested_port} is occupied by macOS AirPlay Receiver / background services.\n"
+                    f"[+] Auto-switching local Flask server to available port: http://127.0.0.1:{candidate}"
+                )
+                port = candidate
+                break
+
+    print(f"[*] Starting VisionGuard Flask server on http://127.0.0.1:{port} (host: {host}) with debug=False")
     app.run(host=host, port=port, debug=False)
 

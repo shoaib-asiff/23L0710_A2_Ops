@@ -52,3 +52,7 @@ htmlcov/
 /archive
 Assignment 2.pdf
 
+
+# Temporary Office lock files
+~$*
+*.tmp

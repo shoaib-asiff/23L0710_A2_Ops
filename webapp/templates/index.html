@@ -11,7 +11,7 @@
     </p>
   </div>
 
-  <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data" id="upload-form">
+  <form action="/predict" method="POST" enctype="multipart/form-data" id="upload-form">
     <div class="dropzone" id="dropzone">
       <input type="file" name="image" id="file-input" class="file-input" accept=".jpg,.jpeg,.png,.webp,.bmp" required>
       <div class="dropzone-icon">📁</div>

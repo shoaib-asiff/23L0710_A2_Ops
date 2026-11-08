@@ -215,9 +215,9 @@
 ---
 
 ### Final Submission Deliverables
-- [ ] PDF Report: `23L0710_VisionGuard.pdf`
-- [ ] GitHub Repository: `https://github.com/<username>/23L0710_A2_Ops`
-- [ ] DagsHub Project: `https://dagshub.com/<username>/23L0710_A2_Ops`
-- [ ] Live Cloud API URL
-- [ ] Graded Commit Hash
+- [x] PDF Report: `23L0710_VisionGuard.pdf` (and editable `23L0710_VisionGuard.docx`)
+- [x] GitHub Repository: `https://github.com/shoaib-asiff/23L0710_A2_Ops`
+- [x] DagsHub Project: `https://dagshub.com/shoaib-asiff/23L0710_A2_Ops`
+- [x] Live Cloud API URL: `https://visionguard-api-23l0710.onrender.com`
+- [x] Graded Commit Hash: `2d4be3ed7c26358d56c3b0ba66cd436ebd8fefb2`
 
